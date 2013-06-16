@@ -75,24 +75,27 @@ properties.
 %%   the only exception to this rule is the \firstsection command
 \firstsection{Motivation}
 \maketitle
+  
+  The concept of graphs was always an important part in computer science. Their
+  ability to represent tree-datastructures, as well as .. made them a valid
+  resource for many kind or problems. 
+  
+  Due to their ability to represent tree datastructures, graphs were always
+  an important part in computer science. But the success of electronic communication
+  - both the World Wide Web and mobile communication - brought new attention to the concept
+  of graphs. Their ability to represent a network structure as well as 
+  
+  in letzten jahren vermehrte forschung im bereich graphen. einerseits wegen
+  zunahme an netzwerken in vernetzter welt, andererseits weil graphen viele
+  probleme abbilden koennen. dazu gehoeren computer science, control science,
+  kommunikation und social networks.
+  vor allem wegen social networks und daraus social marketing sind dynamic
+  graphs mehr ins licht gerueckt. dynamische graphen sind graphen mit varierenten
+  kanten. hierbei spielt vor allem die kommunikation, und die daraus enstehenden
+  untergruppen des netzwerks (cluster) eine grosse rolle. man mochte herausfinden
+  wie sich solche gruppen finden lassen, wie sie das netzwerk beeinflussen,
+  und sich im verlauf der zeit entwickeln.
 
-  While the concept of graphs as a representation of a network is long
-  
-  with the increased size and complexity of networks, the graph representation
-  
-  known, in recent years, there has been increased researchgrowing interest in networks topologies and dynamics, as
-  well as their representation as graphs. One reason for this is the
-  ability to 
-  respresentation, 
-  - wegen ihrem grossen anwendungsgebiet viel erforscht.
-  
-    -elektrotechnik, interaktion, netzwerkkommunikation
-    
-  - jetzt mehr dynamic networks, wegen social marketing,
-    rise of social networks, aber auch schwarmrobotik
-    
-  - interesse vor allem an clustern, um kommunikationsverhalten zu analysieren
-    und untergruppen von netzwerken zu indentifizieren
 
 \section{Basics}
   was sind cluster, ueberlabende cluster, definition?
