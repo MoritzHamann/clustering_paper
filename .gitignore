@@ -1,9 +1,8 @@
 *~
-.aux
-.bbl
-.blg
-.backup
-.pdf
-.log
+*.aux
+*.bbl
+*.blg
+*.backup
+*.log
 README
 
