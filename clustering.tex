@@ -79,24 +79,31 @@ properties.
   The concept of graphs was always an important part of computer 
   science. Their not only able to represent a wide variety 
   of data structures, but also allow to model any kind of relationship
-  between multiple nodes in a network. 
+  between multiple entities or processes in a network. Therefore, graphs
+  are nowadays used in a wide variety of applications, from group
+  dynamics in biological networks[?], over control methods in multi agent systems
+  to communication patterns in social networks.
  
-  Traditionally, these networks consisted of relations between various
-  members of a computer network, but nowadays, graphs are used for a
-  wide variety of applications, from biological networks[?] over
-  control methods for multi agent systems[?], to the communication patterns
-  in the world wide web. viele real world networks haben deutlich anderen
-  eigenschaften wie die klassischen random distributed graphs (ra- euzen 
-  name :D). diese eigenschaften sind hoher clustering coefficent, groesse,
-  etc.
+  Traditionally, new theories and algorithms were tested against so called
+  random graphs, in which the probability for a connection between each 
+  node of the network is constant. Due to their probabilistic nature, 
+  these random graphs have an binomial degree distribution. But research 
+  has shown, that real world networks often have an anomalous degree distribution
+  which follows approximately a power law. This means that a few nodes
+  are highly connected, while most others have only a few connections
+  within the graph. Furthermore, these networks often consist of locally
+  densely connected subgraphs, often referred to as clusters or communities.
+  
+  With the rise of the world wide web and the emerging increase of electronic
+  communication, a lot of interest shifted toward the detection and identification
+  of these communities within networks.  
+  
+ This paper will focus on the more densely connected, local parts of these real
+  world networks, which are called clusters or communities. 
   
   With the rise of social networks, 
   Not only is it crucial for social media marketing
 
-  But the success of electronic communication
-  - both the World Wide Web and mobile communication - brought new attention to the concept
-  of graphs. Their ability to represent a network structure as well as 
-  
   vor allem wegen social networks und daraus social marketing sind dynamic
   graphs mehr ins licht gerueckt. dynamische graphen sind graphen mit varierenten
   kanten. hierbei spielt vor allem die kommunikation, und die daraus enstehenden
