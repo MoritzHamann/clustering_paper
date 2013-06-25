@@ -17,7 +17,6 @@
 \usepackage{graphicx}
 \usepackage{times}
 
-
 %% allow for this line if you want the electronic option to work
 %% properly
 \vgtcinsertpkg
@@ -75,38 +74,55 @@ properties.
 %%   the only exception to this rule is the \firstsection command
 \firstsection{Motivation}
 \maketitle
+
+  Das mathematische Konzept der Graphen ist ein essentielles 
+  Modellierungswerkzeug in der Informatik. Nicht nur lassen sich damit
+  verschiedenste Datenstrukturen anschaulich dargestellen, sondern
+  mit ihrer Hilfe lassen sich auch jegliche Beziehungen zwischen einzelnen
+  Objekten oder Prozessen in einem Netzwerk modellieren und untersuchen.
+  Aus diesem Grund sind sie heutzutage nicht nur in der klassischen Informatik
+  sowie in der Mathematik zu finden, sondern haben auch in vielen anderen
+  Wissenschaften ihren Einzug erhalten. So werden sie genutzt um die
+  Gruppendynamik in biologischen Netzwerken zu beschreiben, dienen
+  als Kontrollalgorithmen für Multiagenten Systeme [?] und beschreiben
+  Kommunikationsmuster in sozialen Netzwerken.
   
-  The concept of graphs was always an important part of computer 
-  science. Their not only able to represent a wide variety 
-  of data structures, but also allow to model any kind of relationship
-  between multiple entities or processes in a network. Therefore, graphs
-  are nowadays used in a wide variety of applications, from group
-  dynamics in biological networks[?], over control methods in multi agent systems
-  to communication patterns in social networks.
- 
-   the so called
-  random graphs, in which the probability for a connection between each 
-  node of the network is constant. Due to their probabilistic nature, 
-  these random graphs have an binomial degree distribution. But research 
-  has shown, that real world networks often have an anomalous degree distribution
-  which follows approximately a power law. This means that a few nodes
-  are highly connected, while most others have only a few connections
-  within the graph. Furthermore, these networks often consist of local
-  densely connected subgraphs, often referred to as clusters or communities.
+  Um die Eigenschaften sehr großer Netzwerke analytisch untersuchen zu können,
+  werden häufig Zufallsgraphen nach dem Model von Edgar Gilbert (nachweise?) oder
+  Erdos-Renyi verwendet. Diese Graphen haben die Besonderheit, dass die 
+  Wahrscheinlichkeit für eine Verbindung zwischen je zwei Objekten im 
+  gesammten Netzwerk konstant ist. Dadurch ensteht ein gleichmäßiger Graph,
+  dessen Gradverteilung binomial verteilt sind, und somit die meisten Knoten 
+  die gleiche Anzahl an Kanten haben. Mit Hilfe der Wahrscheinlichkeitstheorie,
+  lassen sich nun die Eigenschaften dieser Graphen auch für eine sehr hohe Anzahl
+  an Knoten bestimmen und untersuchen.
   
+  Allerdings haben Untersuchungen von realen Netzen gezeigt (nachweis), dass sich
+  diese in den meisten Fällen von Zufallsgraphen unterscheiden. Reale Netzwerke sind
+  häufig sogenannte Skalenfreie Netze (im Englischen 'Scale-free networks'), in 
+  denen die Anzahl der Verbindungen pro Knoten nicht binomial verteilt ist, sonder nach einem
+  Potentzgesetz. Dadurch einsteht ein Netzwerk, in dem einzelne wenige Knoten eine große
+  Anzahl an Verknüpfungen hat, und die meisten weniger stark verknüpft sind. Weiterhin
+  ist die Gradverteilung auch lokal sehr inhomogen, so dass sich Teilgraphen ausbilden,
+  deren Knoten untereinander sehr stark bis komplett verknüpft sind.
+  Diese Teilgraphen werden auch 'Cluster' genannt.
+  
+  Für viele Anwendungsgebiete sind diese Cluster von verstärktem Interesse, da stark
+  verknüpfte Knoten oftmals die gleichen Eigenschaften besitzen.
+    
   in human relation networks offenbaren gruppen in vielen formen wie etwa
   freundeskreise, arbeitskollegen, staedt etc zeigen konnen. 
   With the rise of the world wide web and the emerging increase of electronic
   communication, a lot of interest shifted toward the detection and identification
   of these communities within a network. A prime example in the context of 
   social network sites is the suggestion of possible friends or the identification 
-  of common interests, which is crucial for any kind of social marketing. But
-  clustering analysis in graphs is not limited to human social networks. In [?]
+  of common interests, which is crucial for any kind of social marketing. 
+  
+  But clustering analysis in graphs is not limited to human social networks. In
   the authors outlined various real world networks, in which the detection of
   clusters within the graphs is essential. 
  
  This paper provides an o
- 
 
 \section{Basics}
   was sind cluster, ueberlabende cluster, definition?
