@@ -6,5 +6,6 @@
 *.log
 *.bak
 *.gz
+*.dvi
 README
 
