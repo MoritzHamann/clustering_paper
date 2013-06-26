@@ -16,6 +16,7 @@
 \usepackage{mathptmx} 
 \usepackage{graphicx}
 \usepackage{times}
+\usepackage{amsmath}
 
 %% allow for this line if you want the electronic option to work
 %% properly
@@ -123,32 +124,91 @@ properties.
   Diese Arbeit gibt einen Überblick über die Eigenschaften dieser Cluster, ihr
 
 \section{Grundlagen}
+  
+  \subsection{Formale Definition eines Clustern}
   In diesem Kaptiel wird versucht eine formale Definition zu geben, was ein einen Cluster in Graphen zu. 
   Während die gewünschten Eigenschaften
   
-  ueberlabende cluster
-  \subsection{Eigenschaften von Clustern}
+  \subsubsection{Eigenschaften von Clustern}
   Der Artikel von S.E. Schaeffer [?] bietet eine umfassende Zusammenfassung
   über bisherige Clustering Verfahren, und versucht eine Defintion für 
   Cluster anhand gewünschter Eigenschafter zu geben.
   
-  Eine der wichtigesten Anforderungen an eine Cluster ist die Eigenschaft, dass
-  er aus einem Teilgraphen bestehen sollen desen Knoten untereinander stärker
-  verknüpft sind, als mit dem Rest des Graphen. Dafür ist es nötig, dass
-  die einzelnen Knoten verbunden sind. Das bedeutet, dass es mindestens
-  einen Pfad zwischen zwei Knoten des gleichen Clusters geben sollte. Kann
-  ein Knoten $u$ nicht von einem anderen Konten $v$ erreicht werden, sollten sie
-  nicht im gleichen Cluster liegen. Weiterhin sollten diese Pfade intern im
-  Cluster sein, zwei Knoten eines Clusters sollte also jkkjhkjhkjhkjhkjhkjhkjhkjh
+  Betrachtet man den Teilgraphen $\Omega$ eines kompletten Graphen $\Upsilon$, so müssen
+  mehrere Bedingungen erfüllt sein, damit $\Omega$ ein Cluster wird.
+  Natürlich sollten alle Knoten aus $\Omega$ verbunden sein, was bedeutet das 
+  zwischen jedem Paar aus Knoten $u$ und $v$ mit $u,v \in \Omega$ ein Pfad existiert. 
+  Ist dies nicht der Fall so ist der gesammte Graph nicht verbunden, und das 
+  Clustering sollte auf den einzelnen Teilgraphen gesondert betrachtet werden.
+  Weiterhin sollte der Teilgraph $\Omega$ eine hohe Kantendichte zwischen seinen Knoten
+  aufweisen. Dies ist der Fall, wenn mehere Pfade zwischen den Knoten aus $\Omega$ existieren,
+  so dass jeder Pfad möglichst wenig Elemente aus $\Upsilon \setminus \Omega$ enthält.
   
-  Eine weitere Anforderung an einen Teilgraphen $\Omega$, damit er zu einem Cluster
-  wird, ist ein hohes Verhältniss zwischen internen zu externen Kanten. Dabei
-  ist eine Kante zwischen
+  Der Grad $d(v)$ eines Knoten $v$ ist definiert als die Anzahl der Kanten zu anderen Knoten im
+  Graphen $\Upsilon$. Ist nun $v \in \Omega$ wobei $\Omega$ wieder ein Teilgraph von $\Upsilon$
+  ist, so lässt sich der Grad in einen externen und internen Teil unterscheiden. Dabei
+  ist der interne Grad die Anzahl der Kanten von $v$ zu anderen Knoten aus $\Omega$, der externe
+  Grad die Anzahl der Kanten von $v$ zu allen anderen Knoten aus $\Upsilon \setminus \Omega$.
+  Dabei gilt:
+    \begin{align}
+      d_{int}(v, \Omega) &= |\Gamma(v) \cap \Omega |\\
+      d_{ext}(v, \Omega) &= |\Gamma(v) \cap (\Upsilon \setminus \Omega) | \\
+      d(v) &= d_{int}(v, \Omega) + d_{ext}(v, \Omega)
+    \end{align}
+  wobei $\Gamma(v)$ die direkten Nachbarn von $v$ sind.
+  Eine Eigenschaft, die den Teilgraphen $\Omega$ zu einem Cluster werden lässt, ist ein hohes
+  Verhältniss von internem zu externem Grad für alle Knoten $v \in \Omega$, d.h. die Knoten eins 
+  Cluster haben untereinander wesentlich mehr Verknüpfungen als zu den Knoten des restlichen Graphen.
+   
+  Eine weiteres Kriterium für die Qualität eines Clusters ist die sogenannte interne Clusterdichte.
+  Die allgemeine Dichte eines Graphen $\Upsilon = (V,E)$ mit der Knotenmenge $V$ und der Kantenmenge
+  $E$ ist definiert als das Verhältniss der Summer aller Kanten durch die Anzahl aller 
+  möglichen Kanten in Graph:
+    \begin{align}
+      \rho(\Upsilon) = \frac{|E|}{\binom{|V|}{2}} = \frac{|E|}{2|V|(|V|-1)}
+    \end{align}
+  Somit lässt sich die interne Clusterdichte eines Clusters $\Omega$ definieren als
+    \begin{align}
+      \rho_{int}(\Omega) = \frac{|\{\{u,v\} |u,v \in \Omega \}|}{|\Omega|(|\Omega|-1)}
+    \end{align}
+  wobei $\{u,v\}$ eine Kante zwischen den Knoten $u$ und $v$ darstellt. Die fehlende 2 im Nenner
+  im Vergleich zur allgmeinen Graphendichte ist dadurch zu erklären, dass $\{u,v\}$ und $\{v,u\}$ 
+  zwar die gleiche Kante darstellen, aber zwei unterschiedliche Elemente sind, wodurch die Anzahl
+  der Kanten in $\{\{u,v\} |u,v \in \Omega \}$ verdoppelt wird.
   
+  Zusätzlich zur internen Clusterdichte, existert noch eine sogenannte externe Clusterdichte 
+  zwischen verschiedenen Clustern $\Omega_i$ eines Graphen $\Upsilon$. Sie ist definiert als
+  das Verhältniss der Summe aller Kanten zu der Summe aller möglichen Kanten zwischen den
+  verschiedenen Clustern $\Omega_i$:
+    \begin{align}
+      \rho_{ext}(\Upsilon|\Omega_1 ... \Omega_k) = \frac{|\{\{v,u\} | v\in \Omega_i\, u \in \Omega_j, i \neq j\}|}
+                                                        {|V|(|V|-1)-\sum\limits_{l=1}^k |\Omega_k|(|\Omega_k|-1)}
+    \end{align}
+  wobei $|\Omega_i|$ die Anzahl der Knoten des Teilgraphen $\Omega_i$ darstellt.
+  Im Allgmeinen kann man sagen, dass für ein gutes Clustering auf einem Graph $\Upsilon$ gelten sollte:
+    \begin{align}
+      \rho_{int}(\Omega_i) > \rho(\Upsilon) > \rho_{ext}(\Upsilon|\Omega_1 ... \Omega_k) \\ 
+      			\forall i=1...k \notag
+    \end{align}
   
+  Abb.~\ref{fig:comp_cluster} zeigt drei verschiedene Cluster unterschiedlicher Qualität im Vergleich.
+  Dabei representieren die schwarz hervorgehobenen, beliebig gewählten Teilgraphen jeweils 
+  einen Cluster. Der linke Cluster weist eine sehr hohe intere
+  Dichte auf, und hat kaum Kanten mit Knoten ausserhalb. Daher ist Qualität dieses Clusters
+  sehr hoch. Der mittlere Cluster hat zwar die gleiche Anzahl an internen Kanten, weist
+  aber im Gegensatz zum Linken eine wesentliche höhere Kantenanzahl zu Knoten ausserhalb des
+  Cluster auf. Zwar hat der rechte Cluster nur wenige Kanten nach aussen, allerdings ist aber
+  die Kantendichte innerhalb des Clusters minimalst, was ihn zum schlechtesten Cluster der drei macht.
+
+  \begin{figure}[h]
+    \centering
+    \includegraphics[width=1.5in]{images/good_cluster}
+    \caption{\label{fig:comp_cluster} Drei verschiedene Cluster unterschiedlicher Qualität [referenz]}
+  \end{figure}
   
   \subsubsection{k-Cliques}
-  
+    ueberlabende cluster
+
   \subsection{Cluster in dynamischen Graphen}
   
 \section{Clustering in static graphs}
@@ -199,107 +259,7 @@ Alternativ kann auch das mitgelieferte Makefile verwendet werden.
 
 
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam
-voluptua~\cite{kitware2003,Max:1995:OMF}. At vero eos et accusam et
-justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet.
 
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse
-molestie consequat, vel illum dolore eu feugiat nulla facilisis at
-vero eros et accumsan et iusto odio dignissim qui blandit praesent
-luptatum zzril delenit augue duis dolore te feugait nulla
-facilisi~\cite{notes2002}. Lorem ipsum dolor sit amet, consectetuer
-adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-dolore magna aliquam erat volutpat.
-
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem
-vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et
-accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-delenit augue duis dolore te feugait nulla facilisi.
-
-
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum~\cite{ware:2004:IVP}. Stet clita kasd gubergren, no sea takimata
-sanctus est Lorem ipsum dolor sit amet.
-
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse
-molestie consequat, vel illum dolore eu feugiat nulla facilisis at
-vero eros et accumsan et iusto odio dignissim qui blandit praesent
-luptatum zzril delenit augue duis dolore te feugait nulla
-facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna
-aliquam erat volutpat~\cite{kindlmann:1999:SAG}.
-
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-suscipit lobortis nisl ut aliquip ex ea commodo
-consequat~\cite{levoy:1989:DSV}. Duis autem vel eum iriure dolor in
-hendrerit in vulputate velit esse molestie consequat, vel illum dolore
-eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
-dignissim qui blandit praesent luptatum zzril delenit augue duis
-dolore te feugait nulla facilisi.
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet.
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet.
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua.
 
 
 \begin{figure}[tb]
@@ -311,36 +271,6 @@ dolore magna aliquyam erat, sed diam voluptua.
 \begin{equation}
   \sum_{j=1}^{z} j = \frac{z(z+1)}{2}
 \end{equation}
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet.
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet.
 
 \begin{table}
   %% Table captions on top in journal version
@@ -368,16 +298,6 @@ ipsum dolor sit amet.
 \end{table}
 
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet.
-
 \begin{figure*}[tb]
   \centering
   \includegraphics[width=4cm]{images/foot1}\hfill
@@ -391,76 +311,6 @@ takimata sanctus est Lorem ipsum dolor sit amet.
 \end{figure*}
 
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet.
-
-
-\subsection{Mezcal Head}
-
-Duis autem~\cite{Lorensen:1987:MCA} vel eum iriure dolor in hendrerit
-in vulputate velit esse molestie consequat, vel illum dolore eu
-feugiat nulla facilisis at vero eros et accumsan et iusto odio
-dignissim qui blandit praesent luptatum zzril delenit augue duis
-dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,
-consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
-ut laoreet dolore magna aliquam erat volutpat%
-\footnote{Fu"snoten erscheinen an der Unterkante der Spalte. Sie
-  sollten jedoch vermieden werden, da der Lesefluss gest"ort wird.}.
-
-
-\subsubsection{Ejector Seat Reservation}
-
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-suscipit lobortis nisl ut aliquip ex ea commodo
-consequat~\cite{Nielson:1991:TAD}. Duis autem vel eum iriure dolor in
-hendrerit in vulputate velit esse molestie consequat, vel illum dolore
-eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
-dignissim qui blandit praesent luptatum zzril delenit augue duis
-dolore te feugait nulla facilisi.
-
-\paragraph{Rejected Ejector Seat Reservation}
-
-Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem
-vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-
-\section{Conclusion}
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet.
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-et justo duo dolores et ea rebum.
 
 
 \bibliographystyle{abbrv}
