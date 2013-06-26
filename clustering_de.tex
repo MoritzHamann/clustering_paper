@@ -104,13 +104,13 @@ properties.
   Potentzgesetz. Dadurch einsteht ein Netzwerk, in dem einzelne wenige Knoten eine große
   Anzahl an Verknüpfungen aufweisen, doch die Mehrzahl der Knoten weniger stark verknüpft ist. 
   Weiterhin ist die Kantenverteilung zwischen den Knoten auch lokal sehr inhomogen, so dass sich 
-  Teilgraphen ausbilden, deren Knoten untereinander sehr stark bis komplett verknüpft sind.
-  Diese Teilgraphen werden auch 'Cluster' genannt.
-  
-  Gerade diese Cluster sind für viele Anwendungsgebiete interessant. 
-  Aber auch in sozialen Netzwerken ist die Clusteranalyse essentiel. Betrachtet man die Freundschafts
-  Beziehungen in einem solchen Graph, lassen sich aus lokalen Cluster unter anderem
-  Rückschlüße auf gemeinsame Interessen, Wohnorte oder Arbeitsplätze ziehen.
+  Teilgraphen ausbilden, deren Knoten untereinander sehr stark bis komplett verknüpft sind,
+  während sie nach Außen weniger Verbindungen aufweisen. Diese Teilgraphen werden auch 'Cluster' genannt.
+
+  Diese Cluster spielen in viele Anwendungsgebieten eine wichtige Rolle. 
+  Betrachtet man zum Beispiel den Graph der Freundschafts Beziehungen in einem sozialen Netzwerk,
+  lassen sich mithilfe von Angaben anderer Benutzer, sowie lokaler Cluster, unter anderem Rückschlüße 
+  auf gemeinsame Interessen, Wohnorte oder Freunde der einzelnen Benutzer schließen.
   Diese Informationen bieten dem soziale Marketing eine bis vor kurzem unbekannte Menge
   an Möglichkeiten ihre Produkte zielgerichteter und persönlicher zu vermarkten.
   Aber auch in dynamischen Graphen, in denen Knoten und Kanten sehr häufig wechseln können,
@@ -119,12 +119,37 @@ properties.
   Teilnetze finden die geographisch
   Eine zusätzliche Herrausforderung zur eigentlichen Clusteranalyse ist hierbei allerdings
   
+  \subsubsection*{Übersicht}
   Diese Arbeit gibt einen Überblick über die Eigenschaften dieser Cluster, ihr
 
 \section{Grundlagen}
-  was sind cluster, ueberlabende cluster, definition?
+  In diesem Kaptiel wird versucht eine formale Definition zu geben, was ein einen Cluster in Graphen zu. 
+  Während die gewünschten Eigenschaften
+  
+  ueberlabende cluster
   \subsection{Eigenschaften von Clustern}
-  \subsection{Properties of dynamic graphs}
+  Der Artikel von S.E. Schaeffer [?] bietet eine umfassende Zusammenfassung
+  über bisherige Clustering Verfahren, und versucht eine Defintion für 
+  Cluster anhand gewünschter Eigenschafter zu geben.
+  
+  Eine der wichtigesten Anforderungen an eine Cluster ist die Eigenschaft, dass
+  er aus einem Teilgraphen bestehen sollen desen Knoten untereinander stärker
+  verknüpft sind, als mit dem Rest des Graphen. Dafür ist es nötig, dass
+  die einzelnen Knoten verbunden sind. Das bedeutet, dass es mindestens
+  einen Pfad zwischen zwei Knoten des gleichen Clusters geben sollte. Kann
+  ein Knoten $u$ nicht von einem anderen Konten $v$ erreicht werden, sollten sie
+  nicht im gleichen Cluster liegen. Weiterhin sollten diese Pfade intern im
+  Cluster sein, zwei Knoten eines Clusters sollte also jkkjhkjhkjhkjhkjhkjhkjhkjh
+  
+  Eine weitere Anforderung an einen Teilgraphen $\Omega$, damit er zu einem Cluster
+  wird, ist ein hohes Verhältniss zwischen internen zu externen Kanten. Dabei
+  ist eine Kante zwischen
+  
+  
+  
+  \subsubsection{k-Cliques}
+  
+  \subsection{Cluster in dynamischen Graphen}
   
 \section{Clustering in static graphs}
   \subsection{Clique percolation}
