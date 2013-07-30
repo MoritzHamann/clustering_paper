@@ -130,6 +130,7 @@ properties.
   Während die gewünschten Eigenschaften
   
   \subsubsection{Eigenschaften von Clustern}
+  \label{sec:properties} 
   Der Artikel von S.E. Schaeffer [?] bietet eine umfassende Zusammenfassung
   über bisherige Clustering Verfahren, und versucht eine Defintion für 
   Cluster anhand gewünschter Eigenschafter zu geben.
@@ -165,13 +166,13 @@ properties.
   $E$ ist definiert als das Verhältniss der Summer aller Kanten durch die Anzahl aller 
   möglichen Kanten in Graph:
     \begin{align}
-      \rho(\Upsilon) = \frac{|E|}{\binom{|V|}{2}} = \frac{|E|}{2|V|(|V|-1)}
+      \rho(\Upsilon) = \frac{|E|}{\binom{|V|}{2}} = \frac{2|E|}{|V|(|V|-1)}
     \end{align}
   Somit lässt sich die interne Clusterdichte eines Clusters $\Omega$ definieren als
     \begin{align}
       \rho_{int}(\Omega) = \frac{|\{\{u,v\} |u,v \in \Omega \}|}{|\Omega|(|\Omega|-1)}
     \end{align}
-  wobei $\{u,v\}$ eine Kante zwischen den Knoten $u$ und $v$ darstellt. Die fehlende 2 im Nenner
+  wobei $\{u,v\}$ eine Kante zwischen den Knoten $u$ und $v$ darstellt. Die fehlende 2 im Z"ahler
   im Vergleich zur allgmeinen Graphendichte ist dadurch zu erklären, dass $\{u,v\}$ und $\{v,u\}$ 
   zwar die gleiche Kante darstellen, aber zwei unterschiedliche Elemente sind, wodurch die Anzahl
   der Kanten in $\{\{u,v\} |u,v \in \Omega \}$ verdoppelt wird.
@@ -207,13 +208,19 @@ properties.
   \end{figure}
   
   \subsubsection{k-Cliques}
-    ueberlabende cluster
-
+  	Einen Teilgraphen $\Omega$ mit $k$ Knoten nennt man $k$-Clique, falls alle $k$ Knoten direkt
+  	miteinander verbunden sind, $\Omega$ also komplett ist.
+  	Beispiel mit 2 und 3 Knoten
+  	
+  	man nennt k cliquen benachbart, falls zwei k cliquen k-1 Knoten teilen
+    
   \subsection{Cluster in dynamischen Graphen}
   
 \section{Clustering in static graphs}
-  \subsection{Clique percolation}
-  \subsection{modularity function clustering?}
+  wichtig, da viele Clustering methoden f"ur dynamische graphen bekannte clustering methoden
+  f"ur statische Graphen benutzen
+  \subsection{Modularit"atsoptimierung}
+  \subsection{Clique Percolation Method (CPM)}
 
 \section{Clustering in dynamic graphs}
   \subsection{Extension of clique percolation}
