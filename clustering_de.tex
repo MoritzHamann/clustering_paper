@@ -120,7 +120,7 @@ properties.
   Teilnetze finden die geographisch
   Eine zusätzliche Herrausforderung zur eigentlichen Clusteranalyse ist hierbei allerdings
   
-  \subsubsection*{Übersicht}
+  \subsection*{Übersicht}
   Diese Arbeit gibt einen Überblick über die Eigenschaften dieser Cluster, ihr
 
 \section{Grundlagen}
@@ -208,26 +208,41 @@ properties.
   \end{figure}
   
   \subsubsection{k-Cliques}
-  	Einen Teilgraphen $\Omega$ mit $k$ Knoten nennt man $k$-Clique, falls alle $k$ Knoten direkt
-  	miteinander verbunden sind, und $\Omega$ somit vollst"andig ist. Die entstehende Topologie des
-  	Teilgraphen $\Omega$ ist natürlich vom Parameter $k$ abh"anging. Abb. \ref{fig:k_cliques}
-  	zeigt k-Cliques f"ur verschiedene Werte von $k$.
+  	Einen Teilgraphen $\Omega$ mit $k$ Knoten nennt man $k$-Clique, falls alle $k$ Knoten dieses 
+  	Teilgraphen direkt miteinander verbunden sind, und $\Omega$ somit vollst"andig ist. 
+  	Die entstehende Topologie des Teilgraphen $\Omega$ ist natürlich vom Parameter $k$ abh"anging.
+  	Abb. \ref{fig:k_cliques} zeigt k-Cliques f"ur verschiedene Werte von $k$.
   	
   	
-  	Da jede k-Clique vollst"andig ist, sind alle Knoten untereinander komplett verkn"upft,
-  	was einer maximalen internen Graphdichte von 1 entspricht. Somit sind k-Cliques theoretisch
-  	sehr gute Kandidaten f"uer Cluster, allerdings sind reale Graphen 
+  	Da jede k-Clique vollst"andig ist, ist die in Kapitel \ref{sec:properties} definierte
+  	interne Graphdichte mit $\rho_{int}(\Omega)=1$ maximal. Somit stellen k-Cliques theoretisch gute 
+  	Kandidaten f"uer Cluster da. Beschr"ankt man sich bei der Clusterfindung auf einzelne k-Cliques,
+  	werden in den meisten F"allen viele Cluster nicht gefunden, da Forderung an einen vollst"andig
+  	verknupften Cluster zu restrektiv ist.
     
-  \subsection{Dynamischen Graphen}
+  \subsection{Dynamische Graphen}
+	Ein klassicher Graph $\Omega=(V,E)$ ist eine Kombination einer Menge an Knoten $V$ und
+	Kanten $E$ zu einem bestimmten Zeitpunkt $t$. F"ur viele Anwendungen
+	ist es aber essentiell das Netzwerk "uber einen Zeitraum mit mehreren Zeitschritten $t_i$ zu
+	betrachten und untersuchen.
+	
+	Das Konzept der \emph{dynamischen Graphen}[Quelle] stellt die zeitliche Ver"anderung eines Graphen
+	als geordnete Folge von statischen Teilgraphen f"ur jeden Zeitpunkt $t=1,...,n$ da:
+	\begin{align}
+		\Upsilon=\{\Omega_1=(V_1, E_1), \Omega_2=(V_2, E_2), ..., \Omega_n=(V_n,E_n)\}
+	\end{align}
+	dabei entspricht $\Omega_i$ der Konfiguration des dynamischen Graphen $\Upsilon$ zum Zeitpunkt $i$.
   
-\section{Clustering in static graphs}
-  wichtig, da viele Clustering methoden f"ur dynamische graphen bekannte clustering methoden
-  f"ur statische Graphen benutzen
+\section{Clustering in statischen Graphen}
+  
+  Nach Schaeffer[] lassen sich Clusteringverfahren f"ur statische Graphen in 2 Kategorien einteilen. Es
+  
   \subsection{Modularit"atsoptimierung}
   \subsection{Clique Percolation Method (CPM)}
 
-\section{Clustering in dynamic graphs}
-  \subsection{Extension of clique percolation}
+\section{Clustering in dynamischen Graphen}
+  \subsection{Evolution eins Clusters}
+  \subsection{Erweiterung der CPM}
   \subsection{Time step Clustering}
 
 \section{maybe visualization of dynamic graphs}
