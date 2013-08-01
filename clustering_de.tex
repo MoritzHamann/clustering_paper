@@ -264,29 +264,6 @@ properties.
   lokale "Anderung im Graphen auch nur das Clusterung in deren Umgebung beeinflusst. Deshalb eignen sich lokale
   Verfahren in Anwendungen, bei denen die Nachbarschaft einzelner Knoten schnell und h"aufig untersucht werden soll.
   
-  \subsubsection*{Globale Verfahren}
-  Die Familie der globalen Verfahren l"asst sich noch mal in sogenannte \emph{Top-Down}, sowie
-  \emph{Bottom-Up} Methoden[Schaeffer] unterteilen. Bei Top-Down Verfahren wird der Graph rekursiv anhand
-  verschiedener Kriterien in immer kleinere Methoden unterteilt, w"ahrend bei Bottom-Up Verfahren
-  viele kleinere Cluster sukzessive zu gr"osseren zusammen gefasst werden, bis das Clustering einem
-  Abbruchkriterum gen"ugt.
-  
-  Ein Vertreter der Top-Down Methoden, sind die sogenannten Spektralen Methoden. Sie basieren auf den
-  Eigenwerten und Vektoren der Laplace-Matrix des Graphen. Die Laplace Matrix eines Graph
-  $\Omega=(V,E)$ ist definert als
-  \begin{align}
-    L(\Omega)&=D(\Omega)-A(\Omega)
-  \end{align}
-  wobei $D(\Omega)=diag(\{deg(v_1), ..., deg(v_n)\})$ die Degreematrix von $\Omega$ ist[Buch "ueber graph theorie].
-  $A(\Omega)$ ist die sogenannte Adjacency Matrix von $\Omega$, und definiert als
-  \begin{align}
-   \left[A\right]_{ij}&= \begin{cases}
-			    1 & \text{falls zwischen }v_i\text{ und }v_j\text{ eine Kante besteht}\\
-			    0 & \text{sonst}
-			  \end{cases}
-  \end{align}
-  Dabei versuchen die Spektralen Methoden
-
   
     \begin{table}[h]
     %% Table captions on top in journal version
@@ -301,13 +278,93 @@ properties.
 	          & Maximaler Fluss Methoden & \\
 	\hline
 	Bottom-Up & Modularit"atsoptimierung & CPM \\
-	          & N"achster Nachbar Methode & 
+	          & N"achste Nachbarn Methode & 
       \end{tabular}
     \end{center}
   \end{table}
   
+  \subsubsection*{Globale Verfahren}
+  Die Familie der globalen Verfahren l"asst sich noch mal in sogenannte \emph{Top-Down}, sowie
+  \emph{Bottom-Up} Methoden[Schaeffer] unterteilen. Bei Top-Down Verfahren wird der Graph rekursiv anhand
+  verschiedener Kriterien in immer kleinere Methoden unterteilt, w"ahrend bei Bottom-Up Verfahren
+  viele kleinere Cluster sukzessive zu gr"osseren zusammen gefasst werden, bis das Clustering einem
+  Abbruchkriterum gen"ugt.
+  
+  Ein Vertreter der Top-Down Methoden, sind die sogenannten \emph{Spektralen Methoden}. Sie basieren auf den
+  Eigenwerten und Vektoren der Laplace-Matrix des Graphen. Die Laplace Matrix eines Graph
+  $\Omega=(V,E)$ ist definert als
+  \begin{align}
+    L(\Omega)&=D(\Omega)-A(\Omega)
+  \end{align}
+  wobei $D(\Omega)=diag(\{d(v_1), ..., d(v_n)\})$ die Degreematrix von $\Omega$ ist[Buch "ueber graph theorie].
+  $A(\Omega)$ ist die sogenannte Adjacency Matrix von $\Omega$, und definiert als
+  \begin{align}
+   \left[A\right]_{ij}&= \begin{cases}
+			    1 & \text{falls zwischen }v_i\text{ und }v_j\text{ eine Kante besteht}\\
+			    0 & \text{sonst}
+			  \end{cases}
+  \end{align}
+  Da die Laplace Matrix eine symmetrische, positiv semidefinite Matrix ist[Buch], sind alle Eigenwerte $\lambda_i \ge 0$
+  und die korrespondierenden Eigenvektoren bilden ein orthogonales System. Ordnet man die Eigenwerte in
+  aufsteigener Reihenfolge $\lambda_1 \le \lambda_2 \le \dots \le \lambda_n$, so folgt aus der positiv Semidefinitheit
+  von L dass $\lambda_1 = 0$. Ist weiterhin $\lambda_2 > 0$ so exisitieren keine isolierten Teilgraphen im kompletten
+  Graph[Buch]. Die Algorithmen der spektralen Clustering Methoden benutzen typischerweise die Komponenten des Fideler
+  Vektors -den Eigenvektor von $\lambda_2$- um die Knoten eins Graphen zu vergleichen und clustern[Schaeffer].
+
+  Ein weitere Gruppe von Methoden die den Top-Down Ansatz verfolgen, sind die sogenannten \emph{Random Walk} oder
+  \emph{Markov Ketten Methoden}. Diese Verfahren basieren auf einem zuf"alligen Weg $\xi$ fester L"ange durch den Graph.
+  Dabei $\xi$, ausgehend von einem Startknoten $v_{start}$, iterativ "uber eine zuf"allige Auswahl
+  der direkten Nachbarn des jeweils aktuellen Knoten aufgebaut. Aufgrund der h"oheren Dichte in Clustern, wird der Weg
+  $\xi$ die Knoten des selben Clusters wie $v_{start}$ h"aufiger besuchen als Knoten ausserhalb des Clusters.
+  Abb. \ref{fig:random_walk} zeigt einen Beispielgraph mit zwei Clustern. Wird ein Weg ausgehend von einem weissen
+  Knoten aufgebaut, ist es f"ur einen zuf"alligen Weg nur auf einem Knoten m"oglich den linken Cluster zu verlassen,
+  und somit werden die weissen Knoten des linken Clusters mit einer h"oheren Wahrscheinlichkeit besucht. 
+
+    \begin{figure}[h]
+    \centering
+    \includegraphics[width=2in]{images/random_walk}
+    \caption{\label{fig:random_walk} [Schaeffer]}
+    \end{figure}
+    
+  F"ur gewichtete Graphen eignen sich auch die \emph{Maximaler Fluss Methoden} um ein Clustering duchzuf"uhren. Sie
+  geh"oren ebenfalls zu der Gruppe der Top-Down Verfahren, und versuchen einen minimalen Schnitt[Schaeffer] des Graphen zu finden. 
+  Dazu werden Str"omungsberechnungen auf dem Graphen durchgef"uhrt, wobei ein Fluss zwischen zwei Knoten nur "uber eine Verbindungskante bestehen kann.
+  Da aufgrund des \emph{Minimum cut, maximum Flow Theorms} der Schnitt eins Graphen beim maximalen Fluss am geringsten ist, l"asst sich dieser "uber
+  den maximalen Fluss auf den Kanten des Graphen finden. Flake et al.[Quelle] berechneten hierzu den Fluss mithilfe k"unstlich hinzugef"ugter
+  Senken, und erzeugten daraus einen Minimum-cut Tree [Quelle] um das Clustering auf einem Graphen durchzuf"uhren.
+  
+  Beispiele f"ur Methoden, die einen Bottom-Up Ansatz werden sind unter anderem die \emph{Modularit"atsoptimierung} welche
+  in Kaptiel \ref{sec:modularity} genauer behandelt wird. Eine weitere Vertreter ist die sogenannte \emph{N"achste Nachbarn Methode}[Schaeffer], welche
+  h"aufig auch bei allgmeinen Klassifizierungsproblmen angewendet wird. Um die N"achste Nachbarn Methode auf Graphen anwenden
+  zu k"onnen, muss eine "Ahnlichkeit zwischen zwei Knoten definiert werden. Eine solche "Ahnlichkeit
+  kann z.B. anhand von vorhandenen Metadaten jedes Knoten erfolgen, oder anhand der Schnittmenge der direkten Nachbarn zweier
+  Knoten. Im ersten Schritt wird f"uer jeden Knoten des Graphen derjenige Nachbar gesucht, f"uer welchen die "Ahnlichkeit am gr"ossten ist.
+  Diese beiden Knoten bilden nun einen Cluster. In den darauffolgenden Schritten, werden nun die bereits gefunden Cluster auf "Ahnlichkeit
+  untersucht, und zu gr"osseren Cluster zusammengef"ugt, bis das Clustering beendet ist.
+  
+  
   \subsection{Modularit"atsoptimierung}
+    \label{sec:modularity}
+    Das Verfahren der Modularit"atsoptimierung ist ein weiterer Vertreter der Bottom-Up Ans"atze. Es versucht eine Paritionierung
+    des Graphen zu finden, f"ur die die Modularit"at maximal wird. Hierbei ist die Modularit"at ein Ma"s, in wie fern die gew"ahlte
+    Partitionierung $C(\Omega)$ eines Graphen $\Omega$ einem guten Clustering entspricht.
+    Mathematisch ist die Modularit"at $Q(C)$ definiert als[paper]:
+    \begin{align}
+      Q(C)=\frac{1}{2|E|}\sum\limits_{u,v \in V}\left[ A_{uv} - \frac {k_vk_u}{2|E|}\delta \left( c(u), c(v)\right) \right]
+    \end{align}
+    wobei $A_{uv}=1$ falls eine Kannte zwischen $u$ und $v$ existiert, ansonsten 0. $k_u = d(u)$ ist der Grad des Knoten, und
+    $c(u)$ diejenige Parition die den Knoten $u$ enthält. Weiterhin ist $\delta \left(c(u),c(v)\right)$ falls $c(u)=c(v)$,
+    ansonsten 0.
+    Somit representiert die Modularit"at die Summe aller Kanten innerhalb einer Partition minus der Anzahl der Kanten, falls diese 
+    zuf"allig verteilt w"aren.
   \subsection{Clique Percolation Method (CPM)}
+    \label{sec:CPM}
+    \begin{figure}[h]
+     \centering
+     \includegraphics[width=2in]{images/k-cliques}
+     \caption{\label{fig:CPM} aus paper}
+    \end{figure}
+
 
 \section{Clustering in dynamischen Graphen}
   \subsection{Evolution eins Clusters}
@@ -351,31 +408,6 @@ dabei der folgende:
 Alternativ kann auch das mitgelieferte Makefile verwendet werden.
 
 
-
-\begin{table}
-  %% Table captions on top in journal version
-  \caption{\label{tab:vis_accept} Vis Paper Acceptance Rate}
-  \scriptsize
-  \begin{center}
-    \begin{tabular}{cccc}
-      Year & Submitted & Accepted & Accepted (\%)\\
-      \hline
-      1994 &  91 & 41 & 45.1\\
-      1995 & 102 & 41 & 40.2\\
-      1996 & 101 & 43 & 42.6\\
-      1997 & 117 & 44 & 37.6\\
-      1998 & 118 & 50 & 42.4\\
-      1999 & 129 & 47 & 36.4\\
-      2000 & 151 & 52 & 34.4\\
-      2001 & 152 & 51 & 33.6\\
-      2002 & 172 & 58 & 33.7\\
-      2003 & 192 & 63 & 32.8\\
-      2004 & 167 & 46 & 27.6\\
-      2005 & 268 & 88 & 32.8\\
-      2006 & 228 & 63 & 27.6
-    \end{tabular}
-  \end{center}
-\end{table}
 
 
 \begin{figure*}[tb]
