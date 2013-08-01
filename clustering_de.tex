@@ -308,12 +308,12 @@ properties.
   und die korrespondierenden Eigenvektoren bilden ein orthogonales System. Ordnet man die Eigenwerte in
   aufsteigener Reihenfolge $\lambda_1 \le \lambda_2 \le \dots \le \lambda_n$, so folgt aus der positiv Semidefinitheit
   von L dass $\lambda_1 = 0$. Ist weiterhin $\lambda_2 > 0$ so exisitieren keine isolierten Teilgraphen im kompletten
-  Graph[Buch]. Die Algorithmen der spektralen Clustering Methoden benutzen typischerweise die Komponenten des Fideler
+  Graph[Buch]. Die Algorithmen der spektralen Clustering Methoden benutzen typischerweise die Komponenten des Fiedler
   Vektors -den Eigenvektor von $\lambda_2$- um die Knoten eins Graphen zu vergleichen und clustern[Schaeffer].
 
   Ein weitere Gruppe von Methoden die den Top-Down Ansatz verfolgen, sind die sogenannten \emph{Random Walk} oder
   \emph{Markov Ketten Methoden}. Diese Verfahren basieren auf einem zuf"alligen Weg $\xi$ fester L"ange durch den Graph.
-  Dabei $\xi$, ausgehend von einem Startknoten $v_{start}$, iterativ "uber eine zuf"allige Auswahl
+  Dabei wird $\xi$, ausgehend von einem Startknoten $v_{start}$, iterativ "uber eine zuf"allige Auswahl
   der direkten Nachbarn des jeweils aktuellen Knoten aufgebaut. Aufgrund der h"oheren Dichte in Clustern, wird der Weg
   $\xi$ die Knoten des selben Clusters wie $v_{start}$ h"aufiger besuchen als Knoten ausserhalb des Clusters.
   Abb. \ref{fig:random_walk} zeigt einen Beispielgraph mit zwei Clustern. Wird ein Weg ausgehend von einem weissen
@@ -347,7 +347,8 @@ properties.
     \label{sec:modularity}
     Das Verfahren der Modularit"atsoptimierung ist ein weiterer Vertreter der Bottom-Up Ans"atze. Es versucht eine Paritionierung
     des Graphen zu finden, f"ur die die Modularit"at maximal wird. Hierbei ist die Modularit"at ein Ma"s, in wie fern die gew"ahlte
-    Partitionierung $C(\Omega)$ eines Graphen $\Omega$ einem guten Clustering entspricht.
+    Partitionierung $C(\Omega)$ eines Graphen $\Omega$ einem guten Clustering entspricht. Eine optimale Paritionierung entspricht
+    somit dem Clustering des Graphen.
     Mathematisch ist die Modularit"at $Q(C)$ definiert als[paper]:
     \begin{align}
       Q(C)=\frac{1}{2|E|}\sum\limits_{u,v \in V}\left[ A_{uv} - \frac {k_vk_u}{2|E|}\delta \left( c(u), c(v)\right) \right]
@@ -357,6 +358,37 @@ properties.
     ansonsten 0.
     Somit representiert die Modularit"at die Summe aller Kanten innerhalb einer Partition minus der Anzahl der Kanten, falls diese 
     zuf"allig verteilt w"aren.
+    
+    Der trivialste Ansatz diejenige Partitionierung $C(\Omega)$ zu finden welche die Modularit"at maximiert, w"are die Berechnung
+    aller m"oglichen Partitionen und ihrer dazugeh"origien Modularit"at. Es ist aber offensichtlich, dass bei steigender 
+    Graphgr"osse die Anzahl m"oglicher Partitionen rasant steigt. Weiterhin wurde gezeigt[Quelle], dass das Problem
+    eine optimale Partition zu finden NP-Vollst"andig ist.
+    
+    Eine solche optimale Partitionierung, und somit ein Clustering kann mithilfe der Heuristik in [] approximiert werden. Der wesentliche Bestandteil
+    der Heuristik ist die Tatsache, das die "Anderung der Modularit"at $\Delta Q$ falls ein Knoten $v_i$ in den Cluster $C$ verschoben
+    wird effizient berechnet werden kann:
+    \begin{align}
+     \Delta Q &= \left[ \frac{\sum_{in}+k_{i,in}}{2m} - \left( \frac{\sum_{tot}+k_i}{2m} \right)^2 \right] -
+     \left[ \frac{\sum_{in}}{2m} - \left( \frac{\sum_{tot}}{2m} \right)^2 - \left( \frac{k_i}{2m} \right)^2 \right]
+    \end{align}
+    wobei $\sum_{in}$ die Summe der Gewichte aller Kanten des Clusters $C$ ist, $\sum_{tot}$ die Summe der Gewichte aller Kanten welche
+    mit Knoten des Cluster $C$ verbunden sind, $k_i$ ist die Summe der Gewichte aller Kanten des Knoten $v_i$, $k_{i,in}$ ist die
+    Summe der Gewichte aller Kanten welche den Knoten $i$ mit Knoten aus $C$ verbinden, und $m$ die Anzahl aller Kanten im Graph.
+    Hierbei bleibt zu erw"ahnen, das sogenannte \emph{Selfloops}, also Kanten von $v_i$ nach $v_i$ erlaubt sind, und sogar
+    ein wesentlicher Teil der Heuristik darstellen.
+    
+    Die Heuristik l"auft nun wie folgt ab:
+    \begin{enumerate}
+      \item Am Anfang wird f"ur jeden Knoten ein einzelner Cluster erstellt
+      \item berechnung wiederholt alle Knoten, verschieben von i zu den nachbar clustern, nur falls delta q > 0 
+      \item Falls lokales maxima erreicht erstellen eines neuen graphen, cluster werden zu knoten gewichte zwischen knoten eines cluster werden zu selfloops
+	    gewichte zwischen clustern zu gewichte zwischen knoten
+      \item beginne bei schritt 2 bis modularit"at nicht mehr erh"oht werden kann
+    \end{enumerate}
+
+
+    
+    
   \subsection{Clique Percolation Method (CPM)}
     \label{sec:CPM}
     \begin{figure}[h]
@@ -368,6 +400,15 @@ properties.
 
 \section{Clustering in dynamischen Graphen}
   \subsection{Evolution eins Clusters}
+    \begin{figure*}[h]
+      \centering
+      \includegraphics[width=10cm]{images/evolution_alone}\hfill
+
+      \caption{Illustration "uber beide Textspalten hinweg. Auch
+	Illustrationen m"ussen entsprechend den Quellen gekennzeichnet
+	werden. \cite{strengert2006spectral}}
+      \label{fig:evolution}
+    \end{figure*}
   \subsection{Erweiterung der CPM}
   \subsection{Time step Clustering}
 
@@ -410,17 +451,7 @@ Alternativ kann auch das mitgelieferte Makefile verwendet werden.
 
 
 
-\begin{figure*}[tb]
-  \centering
-  \includegraphics[width=4cm]{images/foot1}\hfill
-  \includegraphics[width=4cm]{images/foot2}\hfill
-  \includegraphics[width=4cm]{images/foot3}\hfill
-  \includegraphics[width=4cm]{images/foot4}
-  \caption{Illustration "uber beide Textspalten hinweg. Auch
-    Illustrationen m"ussen entsprechend den Quellen gekennzeichnet
-    werden. \cite{strengert2006spectral}}
-  \label{fig:multicolumn}
-\end{figure*}
+
 
 
 
