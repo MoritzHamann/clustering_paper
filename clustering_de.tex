@@ -208,6 +208,7 @@ properties.
   \end{figure}
   
   \subsubsection{k-Cliques}
+  \label{sec:k_cliques}
   	Einen Teilgraphen $\Omega$ mit $k$ Knoten nennt man $k$-Clique, falls alle $k$ Knoten dieses 
   	Teilgraphen direkt miteinander verbunden sind, und $\Omega$ somit vollst"andig ist. 
   	Die entstehende Topologie des Teilgraphen $\Omega$ ist natürlich vom Parameter $k$ abh"anging.
@@ -347,8 +348,7 @@ properties.
     \label{sec:modularity}
     Das Verfahren der Modularit"atsoptimierung ist ein weiterer Vertreter der Bottom-Up Ans"atze. Es versucht eine Paritionierung
     des Graphen zu finden, f"ur die die Modularit"at maximal wird. Hierbei ist die Modularit"at ein Ma"s, in wie fern die gew"ahlte
-    Partitionierung $C(\Omega)$ eines Graphen $\Omega$ einem guten Clustering entspricht. Eine optimale Paritionierung entspricht
-    somit dem Clustering des Graphen.
+    Partitionierung $C(\Omega)$ eines Graphen $\Omega$ einem guten Clustering entspricht. Gesucht ist somit eine optimale Paritionierung welche dem Clustering des Graphen entspricht.
     Mathematisch ist die Modularit"at $Q(C)$ definiert als[paper]:
     \begin{align}
       Q(C)=\frac{1}{2|E|}\sum\limits_{u,v \in V}\left[ A_{uv} - \frac {k_vk_u}{2|E|}\delta \left( c(u), c(v)\right) \right]
@@ -364,9 +364,9 @@ properties.
     Graphgr"osse die Anzahl m"oglicher Partitionen rasant steigt. Weiterhin wurde gezeigt[Quelle], dass das Problem
     eine optimale Partition zu finden NP-Vollst"andig ist.
     
-    Eine solche optimale Partitionierung, und somit ein Clustering kann mithilfe der Heuristik in [] approximiert werden. Der wesentliche Bestandteil
-    der Heuristik ist die Tatsache, das die "Anderung der Modularit"at $\Delta Q$ falls ein Knoten $v_i$ in den Cluster $C$ verschoben
-    wird effizient berechnet werden kann:
+    Eine optimale Partitionierung, und somit ein Clustering kann mithilfe der Heuristik in [] approximiert werden. Der wesentliche Bestandteil
+    der Heuristik ist die Tatsache, das die "Anderung der Modularit"at $\Delta Q$, falls ein Knoten $v_i$ in den Cluster $C$ verschoben
+    wird, lokal effizient berechnet werden kann:
     \begin{align}
      \Delta Q &= \left[ \frac{\sum_{in}+k_{i,in}}{2m} - \left( \frac{\sum_{tot}+k_i}{2m} \right)^2 \right] -
      \left[ \frac{\sum_{in}}{2m} - \left( \frac{\sum_{tot}}{2m} \right)^2 - \left( \frac{k_i}{2m} \right)^2 \right]
@@ -379,18 +379,33 @@ properties.
     
     Die Heuristik l"auft nun wie folgt ab:
     \begin{enumerate}
-      \item Am Anfang wird f"ur jeden Knoten ein einzelner Cluster erstellt
-      \item berechnung wiederholt alle Knoten, verschieben von i zu den nachbar clustern, nur falls delta q > 0 
-      \item Falls lokales maxima erreicht erstellen eines neuen graphen, cluster werden zu knoten gewichte zwischen knoten eines cluster werden zu selfloops
-	    gewichte zwischen clustern zu gewichte zwischen knoten
-      \item beginne bei schritt 2 bis modularit"at nicht mehr erh"oht werden kann
+      \item F"ur jeden Knoten wird ein einzelner Cluster erstellt, der nur diesen einen Knoten enth"alt
+      \item Berechnung der $\Delta Q$ f"ur das Verschieben eines Knoten $v_i$ in die Cluster seiner 
+      		direkten Nachbarn. Anschlie"send wird $v_i$ in den Cluster desjenigen Nachbarn $v_j$ verschoben,
+      		dessen $\Delta Q$ am gr"ossten ist. Ist die Zunahme der Modularit"at f"ur jeden Nachbarn negativ,
+      		so bleibt der Knoten $v_i$ in seinem Cluster. Dieser Schritt wird solange wiederholt, bis sich
+      		ein lokales Maxima der Modularit"at einstellt. Dabei ist es durchaus m"oglich das ein Knoten
+      		mehrmals betrachtet wird.
+      \item Ist ein lokales Maxima erreicht, wird einer neuer Graph aufgebaut. Dabei entsprechen die bisherigen
+      		Cluster den Knoten des neuen Graph. Diese sind verbunden falls mindestens eine Kante zwischen
+      		je einem Knoten der beiden Cluster existiert und das Gewicht dieser Kante ist die Summer
+      		der Gewichte aller Kanten zwischen diesen Clustern. Kanten innerhalb eines Cluster f"uhren zu einem
+      		Selfloop dessen Gewicht die Summer der Gewichte dieser Kanten ist. 
+      \item F"uhre Schritte 1-3 wiederrum auf den neuen Graph aus, solange bis die Modularit"at nicht
+      		weiter erh"oht werden kann.
     \end{enumerate}
-
-
-    
     
   \subsection{Clique Percolation Method (CPM)}
     \label{sec:CPM}
+    Alle bisher vorgestellten Methoden waren globale Clusteringverfahren. Ein lokales Verfahren ist die
+    \emph{Clique Percolation Method (CPM)}, welche auf den in Kap. \ref{sec:k_cliques}
+    vorgestellten k-Cliques beruht. Hierzu wird eine Nachbarschaftsbeziehung zwischen k-Cliques definiert, 
+    bei der zwei k-Cliques benachbart sind, falls diese sich $k-1$ Knoten teilen. 
+    
+    Die CPM wird f"ur ein vorher festgelegtes $k$ durchgef"uhrt. Ein dabei gefundener Cluster
+	entspricht der Menge der benachbarten Cliques der Gr"osse $k$.
+    
+    Abb. \ref{fig:CPM} zeigt die gefundenen Cluster einer CPM f"ur 3-Cliques in willk"urlichen Graphen.
     \begin{figure}[h]
      \centering
      \includegraphics[width=2in]{images/k-cliques}
