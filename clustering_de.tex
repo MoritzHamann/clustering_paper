@@ -431,13 +431,13 @@ properties.
   besteht.
   
   Die andere Klasse der Clusteringverfahren dynamischer Graphen wird hier \emph{Time-step Clustering} genannt. Im Gegensatz zu den evolution"aren
-  Clusteringverfahren, verwenden sie nur den statischen Graph des aktuellen Zeitschritt um ein Clustering zu finden. Dies hat den Vorteil das
+  Clusteringverfahren, wird ein Clusteringverfahren seperat au den statischen Graph jedes einzelnen Zeitschritts angewendet. Dies hat den Vorteil das
   Clusteringverfahren statischer Graphen, somit auch die in Kap. \ref{sec:static_clustering} vorgestellten Verfahren, ohne Modifikation
   verwendet werden k"onnen. Da nur die Informationen des aktuellen Zeitschritt verwendet werden, dass sich die gefunden Cluster in konsekutiven
   Zeitschritten sehr stark "andern.
   
   F"ur Verfahren beider Klassen ist es notwendig gefundene Cluster verschiedener Zeitschritte zu vergleichen, um spezifische Cluster "uber
-  mehrerer Zeitschritte zu verfolgen. Dazu wird der \emph{Jaccard-Koeffizient} verwendet, mithilfe dessen zwei Mengen auf "Ahnlichkeit
+  mehrerer Zeitschritte verfolgen zu k"onnen. Dazu kann der \emph{Jaccard-Koeffizient} verwendet werden, mithilfe dessen zwei Mengen auf "Ahnlichkeit
   untersucht werden k"onnen. F"ur die Mengen $A$ und $B$ ist er definiert als \cite{timestep}:
   \begin{align}
     J(A,B)=\frac{|A \cap B|}{|A \cup B|}
@@ -459,12 +459,37 @@ properties.
   \subsection{Erweiterung der CPM}
     \label{sec:CPM_time}
     Palla et al. haben in \cite{CPM_time} die in Kaptiel \ref{sec:CPM} vorgestellte Clique Percolation Method erweitert, um sie auf dynamische
-    Graphen anzuwenden. Dabei wird ein evolution"arer Ansatz verwendet, welcher den Graphen zum Zeitpunkt $t$, als auch zum Zeitpunkt $t+1$
+    Graphen anzuwenden. Dabei wird ein evolution"arer Ansatz verwendet, welcher den Graphen $\Omega_{t}$ zum Zeitpunkt $t$, als auch $\Omega_{t+1}$
     benutzt.
     
-    Im ersten Schritt wird mithilfe der CPM f"ur statische Graphen jeweils ein Clustering  f"ur die Zeitschritte $t$ und $t+1$ durchgef"uhrt.
-    Anschlie"send wird ein mithilfe der Vereinigung der Graphen 
-  \subsection{Time step Clustering}
+    Im ersten Schritt wird mithilfe der CPM f"ur statische Graphen jeweils ein Clustering f"ur $\Omega_{t}$ und $\Omega_{t+1}$ durchgef"uhrt.
+    Anschlie"send wird ein Verbundgraph $\Omega_{t,t+1} = \Omega_{t} \cup \Omega_{t+1}$ konstruiert, welcher alle Knoten und Kanten aus
+    $\Omega_t$ und $\Omega_{t+1}$ enth"alt. Auf diesen Verbundgraph wird wiederum eine CPM angewendet. Da bei der Vereinung zweier Graphen
+    keine Kanten oder Knoten entfernt werden, existiert f"ur jeden Cluster in $\Omega_t$ und $\Omega_{t+1}$ genau ein Cluster in $\Omega_{t,t+1}$.
+    Enth"alt ein Cluster im Verbundgraph jeweils einen einzelnen Cluster aus $\Omega_t$ und einen einzelnen Cluster aus $\Omega_{t+1}$,
+    so k"onnen diese indentifiziert werden. Falls ein Cluster des Verbundsgraph mehrere Cluster der aus $\Omega_t$ oder $\Omega_{t+1}$
+    enth"alt, werden die Cluster anhand des relativen Knoten "Uberlapps identifiziert. Details des Verfahren in \cite{CPM_time}.
+    
+    In Abb. \ref{fig:CPM_time} werden die einzelnen Schritte der CPM Erweiterung graphisch dargestellt. Der Graph zum Zeitpunkt $t$ wird
+    in blau dargestellt, der Graph zum Zeitpunkt $t+1$ in gelb. Die Kreise zeigen die jeweils gefundenen Cluster an. Der Verbundgraph ist
+    in der Mitte dargestellt. Gr"un gef"arbte Knoten und Kanten sind dabei in beiden Zeitschritten verhanden, blau und gelbe nur in den
+    Zeitschritten entsprechender Farbe.
+    
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=3in]{images/CPM_time}
+      \caption{\label{fig:CPM_time} asdf \cite{CPM_time}}
+    \end{figure}
+
+    
+  \subsection{Dynamic Communities}
+    Ein wichtiger Teil eines Time-Step Clusteringverfahrens ist das identifizieren gleicher Cluster in mehreren Zeitschritten. Da
+    Time-Step Verfahren nur Informationen eines einzelnen Zeitschritts verwenden...
+    Hierzu haben Greene et al. in \cite{timestep} ein generelles Framework vorgestellt, welches gefundene Cluster "uber mehere Zeitschritte
+    indentifizieren kann, sowie Ereignisse beschreibt...
+    
+    Ein generelles Framework Cluster "uber mehrere Zeitschritte zu verfolgen wurde von Greene et al. in \cite{timestep} pr"asentiert.
+    Es wird verwendet um gefundene Cluster eins Time-step Clusterings zu verfolgen
  
 \section{Conclusion}
 
