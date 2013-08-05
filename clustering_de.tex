@@ -131,7 +131,7 @@ properties.
   
   \subsubsection{Eigenschaften von Clustern}
   \label{sec:properties} 
-  Der Artikel von S.E. Schaeffer [?] bietet eine umfassende Zusammenfassung
+  Der Artikel von S.E. Schaeffer \cite{Schaeffer} bietet eine umfassende Zusammenfassung
   über bisherige Clustering Verfahren, und versucht eine Defintion für 
   Cluster anhand gewünschter Eigenschafter zu geben.
   
@@ -186,7 +186,7 @@ properties.
                                                         {|V|(|V|-1)-\sum\limits_{l=1}^k |\Omega_k|(|\Omega_k|-1)}
     \end{align}
   wobei $|\Omega_i|$ die Anzahl der Knoten des Teilgraphen $\Omega_i$ darstellt.
-  Im Allgmeinen kann man sagen, dass für ein gutes Clustering auf einem Graph $\Upsilon$ gelten sollte:
+  Im Allgmeinen sollte f"ur ein gutes Clustering auf einem Graph $\Upsilon$ gelten:
     \begin{align}
       \rho_{int}(\Omega_i) > \rho(\Upsilon) > \rho_{ext}(\Upsilon|\Omega_1 ... \Omega_k) \\ 
       			\forall i=1...k \notag
@@ -204,13 +204,13 @@ properties.
   \begin{figure}[h]
     \centering
     \includegraphics[width=1.5in]{images/good_cluster}
-    \caption{\label{fig:comp_cluster} Drei verschiedene Cluster unterschiedlicher Qualität [referenz]}
+    \caption{\label{fig:comp_cluster} Drei verschiedene Cluster unterschiedlicher Qualität \cite{Schaeffer}}
   \end{figure}
   
   \subsubsection{k-Cliques}
   \label{sec:k_cliques}
   	Einen Teilgraphen $\Omega$ mit $k$ Knoten nennt man $k$-Clique, falls alle $k$ Knoten dieses 
-  	Teilgraphen direkt miteinander verbunden sind, und $\Omega$ somit vollst"andig ist. 
+  	Teilgraphen direkt miteinander verbunden sind, und $\Omega$ somit vollst"andig ist \cite{CPM}. 
   	Die entstehende Topologie des Teilgraphen $\Omega$ ist natürlich vom Parameter $k$ abh"anging.
   	Abb. \ref{fig:k_cliques} zeigt k-Cliques f"ur verschiedene Werte von $k$.
   	
@@ -233,7 +233,7 @@ properties.
 	ist es aber essentiell das Netzwerk "uber einen Zeitraum mit mehreren Zeitschritten $t_i$ zu
 	betrachten und untersuchen.
 	
-	Das Konzept der \emph{dynamischen Graphen}[Quelle] stellt die zeitliche Ver"anderung eines Graphen
+	Das Konzept der \emph{dynamischen Graphen}\cite{modularity} stellt die zeitliche Ver"anderung eines Graphen
 	als geordnete Folge von statischen Teilgraphen f"ur jeden Zeitpunkt $t=1,...,n$ da:
 	\begin{align}
 		\Upsilon=\{\Omega_1=(V_1, E_1), \Omega_2=(V_2, E_2), ..., \Omega_n=(V_n,E_n)\}
@@ -243,8 +243,7 @@ properties.
 	sowohl Kanten als auch Knoten hinzugef"ugt oder verschwinden k"onnen.
   
 \section{Clustering in statischen Graphen}
-
-
+  \label{sec:static_clustering}
 
   Viele Clustering Verfahren f"ur dynamische Graphen basieren auf Verfahren zur Clusterung klassischer,
   statischer Graphen. Da dynamische Graphen aufgrund der Zeitanh"angigkeit weitere Komplexit"at einf"uhren,
@@ -252,7 +251,7 @@ properties.
   In diesem Kaptiel wird versucht die Vielzahl verschiedener Verfahren anhand ihrer grunds"atzlichen Eigenschaften
   in verschiedene Kategorien zu klassifizieren, sowie eine kurze Erkl"arung ihrer Funktionsweise zu geben.
   
-  Nach Schaeffer[] lassen sich Clustering Verfahren grunds"atzlich in lokale oder globale
+  Nach Schaeffer \cite{Schaeffer} lassen sich Clustering Verfahren grunds"atzlich in lokale oder globale
   Verfahren einteilen. Hierbei werden die Verfahren entweder global auf den ganzen Graph angewendet,
   oder nur lokal auf einen Teilgraphen. Entsprechend ben"otigen globale Verfahren Informationen "ueber 
   die Topologie des gesammten Graphen, w"ahrend bei bei lokalen Verfahren nur rekursiv die Nachbarschaft
@@ -286,7 +285,7 @@ properties.
   
   \subsubsection*{Globale Verfahren}
   Die Familie der globalen Verfahren l"asst sich noch mal in sogenannte \emph{Top-Down}, sowie
-  \emph{Bottom-Up} Methoden[Schaeffer] unterteilen. Bei Top-Down Verfahren wird der Graph rekursiv anhand
+  \emph{Bottom-Up} Methoden \cite{Schaeffer} unterteilen. Bei Top-Down Verfahren wird der Graph rekursiv anhand
   verschiedener Kriterien in immer kleinere Methoden unterteilt, w"ahrend bei Bottom-Up Verfahren
   viele kleinere Cluster sukzessive zu gr"osseren zusammen gefasst werden, bis das Clustering einem
   Abbruchkriterum gen"ugt.
@@ -297,7 +296,7 @@ properties.
   \begin{align}
     L(\Omega)&=D(\Omega)-A(\Omega)
   \end{align}
-  wobei $D(\Omega)=diag(\{d(v_1), ..., d(v_n)\})$ die Degreematrix von $\Omega$ ist[Buch "ueber graph theorie].
+  wobei $D(\Omega)=diag(\{d(v_1), ..., d(v_n)\})$ die Degreematrix von $\Omega$ ist \cite{graphcontrol}.
   $A(\Omega)$ ist die sogenannte Adjacency Matrix von $\Omega$, und definiert als
   \begin{align}
    \left[A\right]_{ij}&= \begin{cases}
@@ -305,12 +304,12 @@ properties.
 			    0 & \text{sonst}
 			  \end{cases}
   \end{align}
-  Da die Laplace Matrix eine symmetrische, positiv semidefinite Matrix ist[Buch], sind alle Eigenwerte $\lambda_i \ge 0$
+  Da die Laplace Matrix eine symmetrische, positiv semidefinite Matrix ist \cite{graphcontrol}, sind alle Eigenwerte $\lambda_i \ge 0$
   und die korrespondierenden Eigenvektoren bilden ein orthogonales System. Ordnet man die Eigenwerte in
   aufsteigener Reihenfolge $\lambda_1 \le \lambda_2 \le \dots \le \lambda_n$, so folgt aus der positiv Semidefinitheit
   von L dass $\lambda_1 = 0$. Ist weiterhin $\lambda_2 > 0$ so exisitieren keine isolierten Teilgraphen im kompletten
   Graph[Buch]. Die Algorithmen der spektralen Clustering Methoden benutzen typischerweise die Komponenten des Fiedler
-  Vektors -den Eigenvektor von $\lambda_2$- um die Knoten eins Graphen zu vergleichen und clustern[Schaeffer].
+  Vektors -den Eigenvektor von $\lambda_2$- um die Knoten eins Graphen zu vergleichen und clustern \cite{Schaeffer}.
 
   Ein weitere Gruppe von Methoden die den Top-Down Ansatz verfolgen, sind die sogenannten \emph{Random Walk} oder
   \emph{Markov Ketten Methoden}. Diese Verfahren basieren auf einem zuf"alligen Weg $\xi$ fester L"ange durch den Graph.
@@ -324,18 +323,18 @@ properties.
     \begin{figure}[h]
     \centering
     \includegraphics[width=2in]{images/random_walk}
-    \caption{\label{fig:random_walk} [Schaeffer]}
+    \caption{\label{fig:random_walk} \cite{Schaeffer}}
     \end{figure}
     
   F"ur gewichtete Graphen eignen sich auch die \emph{Maximaler Fluss Methoden} um ein Clustering duchzuf"uhren. Sie
-  geh"oren ebenfalls zu der Gruppe der Top-Down Verfahren, und versuchen einen minimalen Schnitt[Schaeffer] des Graphen zu finden. 
+  geh"oren ebenfalls zu der Gruppe der Top-Down Verfahren, und versuchen einen minimalen Schnitt \cite{Schaeffer} des Graphen zu finden. 
   Dazu werden Str"omungsberechnungen auf dem Graphen durchgef"uhrt, wobei ein Fluss zwischen zwei Knoten nur "uber eine Verbindungskante bestehen kann.
   Da aufgrund des \emph{Minimum cut, maximum Flow Theorms} der Schnitt eins Graphen beim maximalen Fluss am geringsten ist, l"asst sich dieser "uber
-  den maximalen Fluss auf den Kanten des Graphen finden. Flake et al.[Quelle] berechneten hierzu den Fluss mithilfe k"unstlich hinzugef"ugter
-  Senken, und erzeugten daraus einen Minimum-cut Tree [Quelle] um das Clustering auf einem Graphen durchzuf"uhren.
+  den maximalen Fluss auf den Kanten des Graphen finden. Flake et al.\cite{flake} berechneten hierzu den Fluss mithilfe k"unstlich hinzugef"ugter
+  Senken, und erzeugten daraus einen Minimum-cut Tree\cite{minimum_cut_tree} um das Clustering auf einem Graphen durchzuf"uhren.
   
   Beispiele f"ur Methoden, die einen Bottom-Up Ansatz werden sind unter anderem die \emph{Modularit"atsoptimierung} welche
-  in Kaptiel \ref{sec:modularity} genauer behandelt wird. Eine weitere Vertreter ist die sogenannte \emph{N"achste Nachbarn Methode}[Schaeffer], welche
+  in Kaptiel \ref{sec:modularity} genauer behandelt wird. Eine weitere Vertreter ist die sogenannte \emph{N"achste Nachbarn Methode}\cite{Schaeffer}, welche
   h"aufig auch bei allgmeinen Klassifizierungsproblmen angewendet wird. Um die N"achste Nachbarn Methode auf Graphen anwenden
   zu k"onnen, muss eine "Ahnlichkeit zwischen zwei Knoten definiert werden. Eine solche "Ahnlichkeit
   kann z.B. anhand von vorhandenen Metadaten jedes Knoten erfolgen, oder anhand der Schnittmenge der direkten Nachbarn zweier
@@ -349,7 +348,7 @@ properties.
     Das Verfahren der Modularit"atsoptimierung ist ein weiterer Vertreter der Bottom-Up Ans"atze. Es versucht eine Paritionierung
     des Graphen zu finden, f"ur die die Modularit"at maximal wird. Hierbei ist die Modularit"at ein Ma"s, in wie fern die gew"ahlte
     Partitionierung $C(\Omega)$ eines Graphen $\Omega$ einem guten Clustering entspricht. Gesucht ist somit eine optimale Paritionierung welche dem Clustering des Graphen entspricht.
-    Mathematisch ist die Modularit"at $Q(C)$ definiert als[paper]:
+    Mathematisch ist die Modularit"at $Q(C)$ definiert als \cite{modularity}:
     \begin{align}
       Q(C)=\frac{1}{2|E|}\sum\limits_{u,v \in V}\left[ A_{uv} - \frac {k_vk_u}{2|E|}\delta \left( c(u), c(v)\right) \right]
     \end{align}
@@ -361,10 +360,11 @@ properties.
     
     Der trivialste Ansatz diejenige Partitionierung $C(\Omega)$ zu finden welche die Modularit"at maximiert, w"are die Berechnung
     aller m"oglichen Partitionen und ihrer dazugeh"origien Modularit"at. Es ist aber offensichtlich, dass bei steigender 
-    Graphgr"osse die Anzahl m"oglicher Partitionen rasant steigt. Weiterhin wurde gezeigt[Quelle], dass das Problem
+    Graphgr"osse die Anzahl m"oglicher Partitionen rasant steigt. Weiterhin wurde gezeigt \cite{modularity_nphard}, dass das Problem
     eine optimale Partition zu finden NP-Vollst"andig ist.
     
-    Eine optimale Partitionierung, und somit ein Clustering kann mithilfe der Heuristik in [] approximiert werden. Der wesentliche Bestandteil
+    Eine optimale Partitionierung, und somit ein Clustering kann mithilfe der Heuristik von Blondel et al. \cite{modularity_heuristic}
+    approximiert werden. Der wesentliche Bestandteil
     der Heuristik ist die Tatsache, das die "Anderung der Modularit"at $\Delta Q$, falls ein Knoten $v_i$ in den Cluster $C$ verschoben
     wird, lokal effizient berechnet werden kann:
     \begin{align}
@@ -398,14 +398,19 @@ properties.
   \subsection{Clique Percolation Method (CPM)}
     \label{sec:CPM}
     Alle bisher vorgestellten Methoden waren globale Clusteringverfahren. Ein lokales Verfahren ist die
-    \emph{Clique Percolation Method (CPM)}, welche auf den in Kap. \ref{sec:k_cliques}
+    \emph{Clique Percolation Method (CPM)}\cite{CPM}, welche auf den in Kap. \ref{sec:k_cliques}
     vorgestellten k-Cliques beruht. Hierzu wird eine Nachbarschaftsbeziehung zwischen k-Cliques definiert, 
     bei der zwei k-Cliques benachbart sind, falls diese sich $k-1$ Knoten teilen. 
     
-    Die CPM wird f"ur ein vorher festgelegtes $k$ durchgef"uhrt. Ein dabei gefundener Cluster
-	entspricht der Menge der benachbarten Cliques der Gr"osse $k$.
+    Ein Cluster in der CPM ist definiert als eine maximale Menge von k-Cliques, welche "uber eine Nachbarschaft
+    erreichbar sind. Dabei wird die CPM jeweils f"ur ein festgelegtes $k$ durchgef"uhrt. Es exisitieren 
+    verschiedene Algorithmen mithilfe derer eine CPM durchgef"uhrt werden kann, z.B. der Bron-Kerbosch Algorithmus.
     
-    Abb. \ref{fig:CPM} zeigt die gefundenen Cluster einer CPM f"ur 3-Cliques in willk"urlichen Graphen.
+    Abb. \ref{fig:CPM} zeigt die gefundenen 3-Cliques Cluster einer CPM f"ur einen willk"urlichen Graphen.
+    Im linken sowie rechten Graph werden jeweils zwei Cluster gefunden, welche durch graue und schwarze
+    Einf"arbung hervorgehobenen sind. Im rechten Graph ist zu erkennen, dass sich Cluster, welche mithilfe einer
+    CPM gefunden wurden, ein oder mehrere Knoten teilen k"onnen. Somit ist es auch m"oglich "uberlappende Cluster
+    in einem Netzwerk zu finden, welche vor allem in sozialen Netzwerken auftreten.
     \begin{figure}[h]
      \centering
      \includegraphics[width=2in]{images/k-cliques}
@@ -414,62 +419,54 @@ properties.
 
 
 \section{Clustering in dynamischen Graphen}
+  Bei einem Clustering eines dynamischen Graphens, ist neben der Identifikation der Cluster ansich, auch deren
+  zeitlichen Verlauf von Interesse. Hierzu k"onnen die bisher vorgestellten Clusteringverfahren f"ur statische
+  Graphen erweitert oder modifiziert werden, damit die gefundenen Cluster "ueber die Zeitschritte verfolgt werden
+  k"onnen.
+  
+  Hierzu lassen sich die Verfahren in zwei Klassen einteilen. \emph{Evolution"are Clustering Verfahren}\cite{evolutionary_clustering}
+  verwenden Graphinformationen mehrerer konsekutiver Zeitschritte um ein Clustering durchzuf"uhren. Zum Beispiel verwendet die Erweiterung der CPM
+  in Kap. \ref{sec:CPM_time} Graphinformationen des aktuellen, sowie des n"achsten Zeitschritt. Ziel der evolution"aren Clusteringverfahren
+  ist es ein "uber mehrere Zeitschritte konsistentes Clustering zu finden, in welchem weiche "Uberg"ange zwischen Clustern der einzelnen Zeitschritten
+  besteht.
+  
+  Die andere Klasse der Clusteringverfahren dynamischer Graphen wird hier \emph{Time-step Clustering} genannt. Im Gegensatz zu den evolution"aren
+  Clusteringverfahren, verwenden sie nur den statischen Graph des aktuellen Zeitschritt um ein Clustering zu finden. Dies hat den Vorteil das
+  Clusteringverfahren statischer Graphen, somit auch die in Kap. \ref{sec:static_clustering} vorgestellten Verfahren, ohne Modifikation
+  verwendet werden k"onnen. Da nur die Informationen des aktuellen Zeitschritt verwendet werden, dass sich die gefunden Cluster in konsekutiven
+  Zeitschritten sehr stark "andern.
+  
+  F"ur Verfahren beider Klassen ist es notwendig gefundene Cluster verschiedener Zeitschritte zu vergleichen, um spezifische Cluster "uber
+  mehrerer Zeitschritte zu verfolgen. Dazu wird der \emph{Jaccard-Koeffizient} verwendet, mithilfe dessen zwei Mengen auf "Ahnlichkeit
+  untersucht werden k"onnen. F"ur die Mengen $A$ und $B$ ist er definiert als \cite{timestep}:
+  \begin{align}
+    J(A,B)=\frac{|A \cap B|}{|A \cup B|}
+  \end{align}
+  wobei $|A|$ die Anzahl der Elemente in $A$ ist. Somit ist der Wertebereich des Jaccard-Koeffizient $[0,1]$ mit 1 als maximaler "Ubereinstimmung.
+  
   \subsection{Evolution eins Clusters}
-    \begin{figure*}[h]
+    Betrachtet man den zeitlichen Verlauf eines Clusters, so k"onnen verschiedene Ereignisse auftreten. Zu jedem Zeitpunkt kann ein neuer Cluster
+    entstehen, ebenso kann sich ein bestehender Cluster aufl"osen. Weiterhin k"onnen neue Cluster entstehen, falls sich bisherige grosse Cluster
+    teilen. Ebenso ist das Gegenteil m"oglich, und mehrere kleinere Cluster formieren sich im n"achsten Zeitschritt zu einem Grossen.
+    Im einfachsten Fall bleib ein Cluster im n"achsten Zeitschritt konstant, w"achst oder schrumpft indem neue Knoten hinzukommen oder weggehen.
+    In Abb. \ref{fig:evolution} sind alle m"oglichen Ereignisse nocheinmal dargestellt.
+    \begin{figure*}[t]
       \centering
-      \includegraphics[width=10cm]{images/evolution_alone}\hfill
-
-      \caption{Illustration "uber beide Textspalten hinweg. Auch
-	Illustrationen m"ussen entsprechend den Quellen gekennzeichnet
-	werden. \cite{strengert2006spectral}}
+      \includegraphics[width=11cm]{images/evolution_alone}
+      \caption{\cite{CPM_time}}
       \label{fig:evolution}
     \end{figure*}
   \subsection{Erweiterung der CPM}
+    \label{sec:CPM_time}
+    Palla et al. haben in \cite{CPM_time} die in Kaptiel \ref{sec:CPM} vorgestellte Clique Percolation Method erweitert, um sie auf dynamische
+    Graphen anzuwenden. Dabei wird ein evolution"arer Ansatz verwendet, welcher den Graphen zum Zeitpunkt $t$, als auch zum Zeitpunkt $t+1$
+    benutzt.
+    
+    Im ersten Schritt wird mithilfe der CPM f"ur statische Graphen jeweils ein Clustering  f"ur die Zeitschritte $t$ und $t+1$ durchgef"uhrt.
+    Anschlie"send wird ein mithilfe der Vereinigung der Graphen 
   \subsection{Time step Clustering}
-
-\section{maybe visualization of dynamic graphs}
-  
-\section{Group Evolution (results)}
  
 \section{Conclusion}
-
-
-\subsection{Abbildungen und Tabellen}
-
-Alle Abbildungen (siehe Abb.\ \ref{fig:sample}) und Tabellen (Tabelle\
-\ref{tab:vis_accept}) sollten zentriert sein
-(\verb|\centering|). Abbildungen "uber beide Textspalten
-(Abb. \ref{fig:multicolumn}) k"onnen mit
-\verb|\begin{figure*}|\ldots\verb|\end{figure*}| eingef"ugt werden.
-
-\subsection{Referenzen}
-
-Literaturangaben wie beispielsweise Levoy \cite{levoy:1989:DSV} werden
-mit Hilfe von BibTeX erzeugt. Dazu werden die Referenzen in die
-Literaturliste (hier \emph{literatur.bib}) eingetragen und
-entsprechend mit \verb|\cite| referenziert.
-
-\subsection{\LaTeX-"Ubersetzung}
-
-Die \LaTeX-Datei kann mit \emph{latex} oder \emph{pdflatex} "ubersetzt
-werden. Dabei ist zu beachten, dass f"ur die "Ubersetzung mit
-\emph{latex} die Grafiken in Postscript (eps) vorliegen, f"ur
-\emph{pdflatex} entsprechend als jpg, png oder pdf.  Der Ablauf ist
-dabei der folgende:
-\begin{enumerate}
-\item \verb|pdflatex <quelldatei.tex>|
-\item \verb|bibtex <quelldatei>|
-\item \verb|pdflatex <quelldatei.tex>| (evtl. mehrfach)
-\end{enumerate}
-Alternativ kann auch das mitgelieferte Makefile verwendet werden.
-
-
-
-
-
-
-
-
 
 \bibliographystyle{abbrv}
 %% use following if all content of bibtex file should be shown
