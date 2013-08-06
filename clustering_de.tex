@@ -36,30 +36,28 @@
 
 %% Abstract section.
 \abstract{%
-This paper presents a summary about various techniques to detect and identify densely connected
-nodes in a graph, so called clusters. In the first part, we introduce the concept of clusters for
-static graphs alongside their main properties. For dynamic graphs with time varying edge connections,
-these cluster may be subject to change with every time step. Therefore additional characteristics
-have to be introduced.
+Dieses Artikel gibt eine Zusammenfassung verschiedener Verfahren, welche lokal stark verkn"upfte Teile eines Graphen - sogenannte Cluster - 
+finden. 
+
+Nach einer kurzen Einf"uhrung in die wichtigsten Eigenschaften von Cluster, k-Cliques und dynamische Graphen, werden verschiedene Verfahren
+f"ur das Clustering in statischen Graphen vorgestellt. die grundlegenden Idee jeder dieser Verfahren wird kurz erl"autert, und anhand des Aufbaus
+der zugrundeliegenden Algorithmen eine Klassifikation in verschiedene Klassen vorgenommen.
+
+Im n"achsten Teil wird speziell auf Probleme des Clustering in dynamischen Graphen eingegangen. ...
 
 The second part describes two methods to detect, identify and track cluster in a dynamic graph.
 A common solution for this problem is the clustering of a static graph at each time step, and the
 identification of the same clusters over multiple time steps. A method is presented to track these
 clusters, which is independent of the underlying static graph clustering algorithm.
 Furthermore, we describe an extension of the k-clique percolation algorithm to dynamic graphs.
-
-Finally, the clique percolation algorithm is applied to two different real world networks, which
-yields interesting result about group dynamics, with regards to the correlation of various group
-properties.
+.
 } % end of abstract
 
 
 %% Uncomment below to include a (optional) teaser figure.
 \teaser{ \centering
-  \includegraphics[width=16cm]{images/CypressView}
-  \caption{In den Wolken: Vancouver von Cypress Mountain. Auf der
-    ersten Seite d"urfen keine Grafiken au"ser dieser optionalen
-    Aufmachgrafik (Teaser) abgebildet sein.}
+  \includegraphics[width=16cm]{images/teaser}
+  \caption{\cite{Schaeffer}}
 }
 
 
@@ -86,7 +84,7 @@ properties.
   sowie in der Mathematik zu finden, sondern haben auch in vielen anderen
   Wissenschaften ihren Einzug erhalten. So werden sie genutzt um die
   Gruppendynamik in biologischen Netzwerken zu beschreiben, dienen
-  als Kontrollalgorithmen für Multiagenten Systeme [?] und beschreiben
+  als Kontrollalgorithmen für Multiagenten Systeme \cite{graphcontrol} und beschreiben
   Kommunikationsmuster in sozialen Netzwerken.
   
   Um die Eigenschaften sehr großer Netzwerke analytisch untersuchen zu können,
@@ -115,22 +113,12 @@ properties.
   auf gemeinsame Interessen, Wohnorte oder Freunde der einzelnen Benutzer schließen.
   Diese Informationen bieten dem soziale Marketing eine bis vor kurzem unbekannte Menge
   an Möglichkeiten ihre Produkte zielgerichteter und persönlicher zu vermarkten.
-  Aber auch in dynamischen Graphen, in denen Knoten und Kanten sehr häufig wechseln können,
-  ist es wichtig Cluster zu finden. Betrachtet man den Verbindungsgraph eines dezentralen, 
-  kabellosen Ad-Hoc Netzwerks, so lassen sich mit Hilfe von Clustering Verfahren 
-  Teilnetze finden die geographisch
-  Eine zusätzliche Herrausforderung zur eigentlichen Clusteranalyse ist hierbei allerdings
-  
-  \subsection*{Übersicht}
-  Diese Arbeit gibt einen Überblick über die Eigenschaften dieser Cluster, ihr
 
 \section{Grundlagen}
   
-  \subsection{Formale Definition eines Clustern}
-  In diesem Kaptiel wird versucht eine formale Definition zu geben, was ein einen Cluster in Graphen zu. 
-  Während die gewünschten Eigenschaften
+  bla bla bla
   
-  \subsubsection{Eigenschaften von Clustern}
+  \subsection{Eigenschaften von Clustern}
   \label{sec:properties} 
   Der Artikel von S.E. Schaeffer \cite{Schaeffer} bietet eine umfassende Zusammenfassung
   über bisherige Clustering Verfahren, und versucht eine Defintion für 
@@ -208,7 +196,7 @@ properties.
     \caption{\label{fig:comp_cluster} Drei verschiedene Cluster unterschiedlicher Qualität \cite{Schaeffer}}
   \end{figure}
   
-  \subsubsection{k-Cliques}
+  \subsection{k-Cliques}
   \label{sec:k_cliques}
   	Einen Teilgraphen $\Omega$ mit $k$ Knoten nennt man $k$-Clique, falls alle $k$ Knoten dieses 
   	Teilgraphen direkt miteinander verbunden sind, und $\Omega$ somit vollst"andig ist \cite{CPM}. 
@@ -514,28 +502,40 @@ properties.
       \item $D_3 =\{C_{1,2}, C_{2,3}\}$
     \end{itemize}
     
-    F"ur jeden Zeitschritt $t$ m"ussen die gefundenen Cluster $C_i$ des Clustering $\mathbb{C}_t$ mit den Fronten der Dynamic Communities
-    verglichen werden. Hierzu wird der in Kap. \ref{sec:dynamic_clustering} vorgestellte Jaccard-Koeffizient verwendet. Dabei sind die
-    Front $F_j$ und der Cluster $C_{i,t}$ gleich falls $J(F_j,C_{i,t})$ gro"ser einem bestimmten Wert $\theta$ ist. Da in dynamischen Graphen
-    die in Kap. \ref{sec:evolution} beschriebenen Ereignisse auftreten k"onnen, ist es durchaus m"oglich, dass ein Cluster $C_{i,t}$ des
-    Clustering $\mathbb{C}_t$ keiner, einer oder mehreren Fronten zugeordnet werden kann. Dabei gilt f"ur die einzelnen Ereignisse eines Clusters:
+    F"ur jeden Zeitschritt $t$ werden die gefundenen Cluster $C_i$ des Clustering $\mathbb{C}_t$ mit den Fronten der Dynamic Communities
+    verglichen um gleiche Cluster in konsekutiven Zeitschritten zu finden. Hierzu wird der in Kap. \ref{sec:dynamic_clustering}
+    vorgestellte Jaccard-Koeffizient verwendet. Dabei sind die
+    Front $F_j$ und der Cluster $C_{t,i}$ gleich falls $J(F_j,C_{t,i})$ gro"ser einem bestimmten Wert $\theta$ ist. Da in dynamischen Graphen
+    die in Kap. \ref{sec:evolution} beschriebenen Ereignisse auftreten k"onnen, ist es durchaus m"oglich, dass ein Cluster $C_{t,i}$ des
+    Clustering $\mathbb{C}_t$ keiner, einer oder mehreren Fronten zugeordnet werden kann. Dabei gelten folgende Regeln f"ur die 
+    einzelnen Ereignisse im zeitlichen Verlauf eines Clusters:
     \begin{itemize}
       \item \textbf{Geburt:} \hfill \\
-	    Falls ein Cluster $C_{i,t}$ zum Zeitpunkt $t$ keiner bisherigen Front zugeordnet werden kann, wird eine neue Dynamic Community
-	    $D_i$ angelegt, welche $C_{i,t}$ enth"alt. Die Dynamic Community $D_2$ in Abb. \ref{fig:dynamic1} wird zum Zeitpunkt $t=2$ geboren. 
+	    Falls ein Cluster $C_{t,i}$ zum Zeitpunkt $t$ keiner bisherigen Front zugeordnet werden kann, wird eine neue Dynamic Community
+	    $D_i$ angelegt, welche $C_{t,i}$ enth"alt. Die Dynamic Community $D_2$ in Abb. \ref{fig:dynamic1} wird zum Zeitpunkt $t=2$ geboren. 
       \item \textbf{Tod:} \hfill \\
 	    Eine bestehende Dynamic Community $D_i$ kann sich auch zu jedem Zeitschritt auch aufl"osen. Dies ist der Fall, falls in $d$ konsekutiven
 	    Zeitschritten kein Cluster finden l"asst, der der Front $F_i$ entspricht. Nach dem Tod von $D_i$ werden die gefunden Cluster nicht mehr mit
 	    $F_i$ verglichen. Ist $d>1$ so kann eine Dynamic Community mehrere Zeitschritte ohne einen entsprechenden Cluster des aktuellen Zeitschritts bestehen.
 	    Ein Beispiel f"ur den Tod einer Dynamic Community ist $D_3$ in Abb. \ref{fig:dynamic1}, falls f"ur $t>3$ keine Cluster gefunden werden welche $F_3$ entsprechen.
       \item \textbf{Zusammenschluss:} \hfill \\
-	    Zwei Dynamic Communites fallen zusammen, falls ein Cluster $C_{k,t}$ zwei Fronten $F_i$ und $F_j$ zugeordnet werden kann. Beiden Dynamic Communities
-	    $D_i$ und $D_j$ wird der Cluster $C_{k,t}$ zugeordnet. Ein Beispiel hierf"ur sind $D_1$ und $D_2$ in Abb. \ref{fig:dynamic2}.
+	    Zwei Dynamic Communites fallen zusammen, falls ein Cluster $C_{t,m}$ zwei Fronten $F_i$ und $F_j$ zugeordnet werden kann. Beiden Dynamic Communities
+	    $D_i$ und $D_j$ wird der Cluster $C_{t,m}$ hinzugef"ugt. Ein Beispiel hierf"ur sind $D_1$ und $D_2$ in Abb. \ref{fig:dynamic2}.
       \item \textbf{Trennung:} \hfill \\
-	    Lassen sich zwei Cluster $C_{i,t}$ und $C_{j,t}$ der gleichen Front $F_k$ zuordnen, so teilt sich die Dynamic Community im aktuellen Zeitschritt.
-	    Dabei wird $D_k$ einer der beiden Cluster $C_{i,t}$ oder $C_{j,t}$ zugordnet, und eine neue Dynamic Community $D_l$ angelegt, welche den anderen Cluster enth"ahlt.
+	    Lassen sich zwei Cluster $C_{t,i}$ und $C_{t,j}$ der gleichen Front $F_m$ zuordnen, so teilt sich die Dynamic Community im aktuellen Zeitschritt.
+	    Dabei wird $D_m$ einer der beiden Cluster $C_{i,t}$ oder $C_{j,t}$ hinzugef"ugt, und eine neue Dynamic Community $D_l$ angelegt, welche die bisherigen
+	    Elemenet von $D_m$ enth"alt, zus"atzlich des anderen Clusters.
 	    Ein Beispiel sind die Dynamic Communities $D_3$ und $D_4$ in Abb. \ref{fig:dynamic2}.
     \end{itemize}
+    Somit sind die Dynamic Communities in Abb. \ref{fig:dynamic2}:
+    \begin{itemize}
+      \item $D_1 =\{C_{1,1}, C_{2,1}, C_{3,1}\}$
+      \item $D_2 =\{C_{1,2}, C_{2,1}, C_{3,1}\}$
+      \item $D_3 =\{C_{1,3}, C_{2,2}, C_{3,2}\}$
+      \item $D_4 =\{C_{1,3},C_{2,3}, C_{3,3}\}$
+    \end{itemize}
+
+    
     \begin{figure}[b]
       \centering
       \includegraphics[width=2.5in]{images/dynamic_communities2}
@@ -552,18 +552,16 @@ properties.
 	\item Falls es keine solche Dynamic Community gibt, lege eine neue an welche $C_{i,t}$ enth"ahlt.
 	\item Falls Dynamic Communities gefunden wurden, f"uge Jeder $C_{i,t}$ hinzu.
       \end{enumerate}
-      \item Falls einer bestehenden Dynamic Community mehere Cluster zugeordnet wurden, wird eine f"ur jeden zus"atzlichen Cluster eine neue Dynamic Community erstellt.
+      \item Falls einer bestehenden Dynamic Community $D_i$ mehere Cluster zugeordnet wurden, wird f"ur jeden zus"atzlichen Cluster eine Kopie von $D_i$ erstellte,
+	    welcher jeweils der jeweilige Cluster hinzugef"ugt wurde.
 	    Anschlie"send werden die Fronten $F_i$ aller aktiven Communties auf den letzten bekannten Cluster aktualisiert.
       \item Wiederhole ab Schritt 2 bis alle Zeitschritte verarbeitet wurden.
     \end{enumerate}
     Hierbei entspricht der Schritt 3. (b) der Geburt einer neuen Community, der Schritt 3. (c) einem Zusammenschluss meherer Communities falls Anzahl der "ubereinstimmenden
     Fronten $>1$ ist. In Schritt 4. wird der Fall behandelt, falls sich eine bestehende Dynamic Community in mehere aufteilt.
 
-
-
-    
-\section{Conclusion}
-
+\section{Fazit}
+  In diesem Artikel wurden bla bla bla
 \bibliographystyle{abbrv}
 %% use following if all content of bibtex file should be shown
 % \nocite{*}
