@@ -17,6 +17,7 @@
 \usepackage{graphicx}
 \usepackage{times}
 \usepackage{amsmath}
+\usepackage{amssymb}
 
 %% allow for this line if you want the electronic option to work
 %% properly
@@ -419,6 +420,7 @@ properties.
 
 
 \section{Clustering in dynamischen Graphen}
+  \label{sec:dynamic_clustering}
   Bei einem Clustering eines dynamischen Graphens, ist neben der Identifikation der Cluster ansich, auch deren
   zeitlichen Verlauf von Interesse. Hierzu k"onnen die bisher vorgestellten Clusteringverfahren f"ur statische
   Graphen erweitert oder modifiziert werden, damit die gefundenen Cluster "ueber die Zeitschritte verfolgt werden
@@ -445,6 +447,7 @@ properties.
   wobei $|A|$ die Anzahl der Elemente in $A$ ist. Somit ist der Wertebereich des Jaccard-Koeffizient $[0,1]$ mit 1 als maximaler "Ubereinstimmung.
   
   \subsection{Evolution eins Clusters}
+    \label{sec:evolution}
     Betrachtet man den zeitlichen Verlauf eines Clusters, so k"onnen verschiedene Ereignisse auftreten. Zu jedem Zeitpunkt kann ein neuer Cluster
     entstehen, ebenso kann sich ein bestehender Cluster aufl"osen. Weiterhin k"onnen neue Cluster entstehen, falls sich bisherige grosse Cluster
     teilen. Ebenso ist das Gegenteil m"oglich, und mehrere kleinere Cluster formieren sich im n"achsten Zeitschritt zu einem Grossen.
@@ -483,14 +486,82 @@ properties.
 
     
   \subsection{Dynamic Communities}
-    Ein wichtiger Teil eines Time-Step Clusteringverfahrens ist das identifizieren gleicher Cluster in mehreren Zeitschritten. Da
-    Time-Step Verfahren nur Informationen eines einzelnen Zeitschritts verwenden...
-    Hierzu haben Greene et al. in \cite{timestep} ein generelles Framework vorgestellt, welches gefundene Cluster "uber mehere Zeitschritte
-    indentifizieren kann, sowie Ereignisse beschreibt...
+    Ein wichtiger Teil eines Time-Step Clusteringverfahrens ist neben dem eigentlichen Clustering, das Identifizieren gleicher Cluster
+    "uber mehrere Zeitschritte. Hierzu haben Greene et al. in \cite{timestep} ein generelles Framework vorgestellt, welches auf den
+    in Kap. \ref{sec:evolution} gezeigten Ereignissen basiert. Da es weiterhin unabh"angig vom verwendeten Clustering Verfahren ist,
+    l"asst es sich mit allen in Kap. \ref{sec:static_clustering} vorgestellten Verfahren kombinieren.
     
-    Ein generelles Framework Cluster "uber mehrere Zeitschritte zu verfolgen wurde von Greene et al. in \cite{timestep} pr"asentiert.
-    Es wird verwendet um gefundene Cluster eins Time-step Clusterings zu verfolgen
- 
+    Betracheten man einen dynamischen Graphen $\Upsilon = \{ \Omega_1, \dots, \Omega_n \}$ als eine geordnete Folgen statischer
+    Graphen $\Omega_t$ zum Zeitpunkt $t$ und wendet ein Time-Step Clustering an, erh"ahlt man ein Clustering
+    $\mathbb{C}_t = \{ C_{t,1}, \dots, C_{t,k}\}$ f"ur jeden einzelnen Zeitschritt.
+    
+    Ein Kernkonzept des in \cite{timestep} vorgestellten Verfahrens sind sogenannte \emph{Dynamic Communities}. Diese Dynamic
+    Communites $D_i$ respresentieren den zeitlichen Verlauf eines einzelnen Cluster $C_i$ im Graph. Sie lassen sich als eine zeitlich 
+    geordnete Folge $D_i = \{ C_{1,i}, \dots, C_{n,i} \}$ einzelner Konfigurationen des Clusters $C_i$ zu unterschiedlichen Zeitpunkten
+    darstellen. Abb. \ref{fig:dynamic1} zeigt den Verlauf dreier Dynamic Communities "uber drei Zeitschritte. Es ist an $D_3$ ersichtlich das
+    nicht f"uer alle Zeitschritte eine Konfiguration $C_{t,i}$ vorhanden sein muss. Die zeitlich letzte bekannte Konfiguration
+    einer Dynamic Community wird die Front $F_i$ genannt, welche f"ur verschiedene $D_i$ nicht unbedingt zum selben Zeitpunkt sein muss.
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=2.5in]{images/dynamic_communities1}
+      \caption{\label{fig:dynamic1}\cite{timestep}}
+    \end{figure}
+    
+    Die Dynamic Communities in Abb \ref{fig:dynamic1} sind:
+    \begin{itemize}
+      \item $D_1 =\{C_{1,1}, C_{2,1}, C_{3,1}\}$
+      \item $D_2 =\{C_{2,2}, C_{3,2}\}$
+      \item $D_3 =\{C_{1,2}, C_{2,3}\}$
+    \end{itemize}
+    
+    F"ur jeden Zeitschritt $t$ m"ussen die gefundenen Cluster $C_i$ des Clustering $\mathbb{C}_t$ mit den Fronten der Dynamic Communities
+    verglichen werden. Hierzu wird der in Kap. \ref{sec:dynamic_clustering} vorgestellte Jaccard-Koeffizient verwendet. Dabei sind die
+    Front $F_j$ und der Cluster $C_{i,t}$ gleich falls $J(F_j,C_{i,t})$ gro"ser einem bestimmten Wert $\theta$ ist. Da in dynamischen Graphen
+    die in Kap. \ref{sec:evolution} beschriebenen Ereignisse auftreten k"onnen, ist es durchaus m"oglich, dass ein Cluster $C_{i,t}$ des
+    Clustering $\mathbb{C}_t$ keiner, einer oder mehreren Fronten zugeordnet werden kann. Dabei gilt f"ur die einzelnen Ereignisse eines Clusters:
+    \begin{itemize}
+      \item \textbf{Geburt:} \hfill \\
+	    Falls ein Cluster $C_{i,t}$ zum Zeitpunkt $t$ keiner bisherigen Front zugeordnet werden kann, wird eine neue Dynamic Community
+	    $D_i$ angelegt, welche $C_{i,t}$ enth"alt. Die Dynamic Community $D_2$ in Abb. \ref{fig:dynamic1} wird zum Zeitpunkt $t=2$ geboren. 
+      \item \textbf{Tod:} \hfill \\
+	    Eine bestehende Dynamic Community $D_i$ kann sich auch zu jedem Zeitschritt auch aufl"osen. Dies ist der Fall, falls in $d$ konsekutiven
+	    Zeitschritten kein Cluster finden l"asst, der der Front $F_i$ entspricht. Nach dem Tod von $D_i$ werden die gefunden Cluster nicht mehr mit
+	    $F_i$ verglichen. Ist $d>1$ so kann eine Dynamic Community mehrere Zeitschritte ohne einen entsprechenden Cluster des aktuellen Zeitschritts bestehen.
+	    Ein Beispiel f"ur den Tod einer Dynamic Community ist $D_3$ in Abb. \ref{fig:dynamic1}, falls f"ur $t>3$ keine Cluster gefunden werden welche $F_3$ entsprechen.
+      \item \textbf{Zusammenschluss:} \hfill \\
+	    Zwei Dynamic Communites fallen zusammen, falls ein Cluster $C_{k,t}$ zwei Fronten $F_i$ und $F_j$ zugeordnet werden kann. Beiden Dynamic Communities
+	    $D_i$ und $D_j$ wird der Cluster $C_{k,t}$ zugeordnet. Ein Beispiel hierf"ur sind $D_1$ und $D_2$ in Abb. \ref{fig:dynamic2}.
+      \item \textbf{Trennung:} \hfill \\
+	    Lassen sich zwei Cluster $C_{i,t}$ und $C_{j,t}$ der gleichen Front $F_k$ zuordnen, so teilt sich die Dynamic Community im aktuellen Zeitschritt.
+	    Dabei wird $D_k$ einer der beiden Cluster $C_{i,t}$ oder $C_{j,t}$ zugordnet, und eine neue Dynamic Community $D_l$ angelegt, welche den anderen Cluster enth"ahlt.
+	    Ein Beispiel sind die Dynamic Communities $D_3$ und $D_4$ in Abb. \ref{fig:dynamic2}.
+    \end{itemize}
+    \begin{figure}[b]
+      \centering
+      \includegraphics[width=2.5in]{images/dynamic_communities2}
+      \caption{\label{fig:dynamic2} \cite{timestep}}
+    \end{figure}
+    Folgende Schritte werden somit im \cite{timestep} vorgestellten Algorithmus durchgef"uhrt:
+    \begin{enumerate}
+      \item Anwenden eines Clusteringverfahren auf den statischen Teilgraphen $\Omega_0$ zum Zeitpunkt $t=0$ des dynamischen Graphen $\Upsilon$. F"ur jeden gefundenen
+	    Cluster wird eine Dynamic Community angelegt, welche diesen Cluster enth"alt.
+      \item F"uhre ein Clustering des nachfolgenden Zeitschritt aus, um Menge der Cluster $\mathbb{C}_t$ zu erhalten.
+      \item Wende auf jeden Cluster $C_{i,t} \in \mathbb{C}_t$ folgende Schritte an:
+      \begin{enumerate}
+	\item Finde alle Dynamic Communities $D_j$, f"ur die $J(C_{i,t},F_j) > \theta$ ist.
+	\item Falls es keine solche Dynamic Community gibt, lege eine neue an welche $C_{i,t}$ enth"ahlt.
+	\item Falls Dynamic Communities gefunden wurden, f"uge Jeder $C_{i,t}$ hinzu.
+      \end{enumerate}
+      \item Falls einer bestehenden Dynamic Community mehere Cluster zugeordnet wurden, wird eine f"ur jeden zus"atzlichen Cluster eine neue Dynamic Community erstellt.
+	    Anschlie"send werden die Fronten $F_i$ aller aktiven Communties auf den letzten bekannten Cluster aktualisiert.
+      \item Wiederhole ab Schritt 2 bis alle Zeitschritte verarbeitet wurden.
+    \end{enumerate}
+    Hierbei entspricht der Schritt 3. (b) der Geburt einer neuen Community, der Schritt 3. (c) einem Zusammenschluss meherer Communities falls Anzahl der "ubereinstimmenden
+    Fronten $>1$ ist. In Schritt 4. wird der Fall behandelt, falls sich eine bestehende Dynamic Community in mehere aufteilt.
+
+
+
+    
 \section{Conclusion}
 
 \bibliographystyle{abbrv}
