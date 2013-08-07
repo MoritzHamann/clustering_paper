@@ -36,28 +36,29 @@
 
 %% Abstract section.
 \abstract{%
-Dieses Artikel gibt eine Zusammenfassung verschiedener Verfahren, welche lokal stark verkn"upfte Teile eines Graphen - sogenannte Cluster - 
-finden. 
+Betrachtet man die Graphen realer Netzwerke stellt man fest, dass die Kantenverteilung lokal oftmals stark variiert. In solchen Graphen
+sind vor allem diejenigen Teilgraphen von Interesse, welche eine hohe Kantendichte haben und deren Knoten stark verkn"upft sind.
+Diese Teilgraphen werden auch Cluster genannt.
 
-Nach einer kurzen Einf"uhrung in die wichtigsten Eigenschaften von Cluster, k-Cliques und dynamische Graphen, werden verschiedene Verfahren
-f"ur das Clustering in statischen Graphen vorgestellt. die grundlegenden Idee jeder dieser Verfahren wird kurz erl"autert, und anhand des Aufbaus
-der zugrundeliegenden Algorithmen eine Klassifikation in verschiedene Klassen vorgenommen.
+In diesem Artikel wird eine Zusammenfassung verschiedener Verfahren gegeben, welche solche Cluster in einem Graph finden. Neben dem
+Clustering klassischer statischer Graphen, werden auch Verfahren vorgestellt, die auf zeitver"anderlichen dynamischen Graphen operieren.
+Hierzu wird im ersten Teil eine kurze Einf"uhrung in die wichtigsten Eigenschaften von Cluster, k-Cliques und dynamischen Graphen gegeben.
 
-Im n"achsten Teil wird speziell auf Probleme des Clustering in dynamischen Graphen eingegangen. ...
+Anschlie"send wird eine "Ubersicht verschiedener Clusteringverfahren f"ur statische Graphen pr"asentiert, ihre grundlegenden Funktionsweisen
+erl"autert und anhand dieser eine Einteilung in verschiedene Klassen vorgenommen. Hierbei werden exemplarische die Modularit"atsoptimierung,
+sowie die Clique Percolation Method als zwei Vertreter dieser Algorithmen genauer erl"autert.
 
-The second part describes two methods to detect, identify and track cluster in a dynamic graph.
-A common solution for this problem is the clustering of a static graph at each time step, and the
-identification of the same clusters over multiple time steps. A method is presented to track these
-clusters, which is independent of the underlying static graph clustering algorithm.
-Furthermore, we describe an extension of the k-clique percolation algorithm to dynamic graphs.
-.
+Im letzten Teil werden zwei Verfahren vorgestellt, mit denen Cluster auch in dynamischen Graphen gefunden werden k"onnen. Neben einer
+Erweiterung der Clique Percolation Method, wird ein sogenanntes Time-Step Clustering pr"asentiert, welches erm"oglicht beliebige
+statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
 } % end of abstract
 
 
 %% Uncomment below to include a (optional) teaser figure.
 \teaser{ \centering
   \includegraphics[width=16cm]{images/teaser}
-  \caption{\cite{Schaeffer}}
+  \caption{Zwei Graphen mit je 84 Knoten und 358 Kanten, welche beide mit einem Spring-Force Algorithmus visualisiert wurden. Man sieht deutlich die
+  lokalen Inhomogenit"aten im linken Graph, der eine ``Relaxed Caveman'' Struktur hat. Der rechte Graph ist ein  zuf"alliger Random Graph \cite{Schaeffer}}
 }
 
 
@@ -77,7 +78,7 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
 
   Das mathematische Konzept der Graphen ist ein essentielles 
   Modellierungswerkzeug in der Informatik. Nicht nur lassen sich damit
-  verschiedenste Datenstrukturen anschaulich dargestellen, sondern
+  verschiedenste Datenstrukturen anschaulich dargestellten, sondern
   mit ihrer Hilfe lassen sich auch jegliche Beziehungen zwischen einzelnen
   Objekten oder Prozessen in einem Netzwerk modellieren und untersuchen.
   Aus diesem Grund sind sie heutzutage nicht nur in der klassischen Informatik
@@ -91,25 +92,25 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
   werden häufig Zufallsgraphen nach dem Model von Edgar Gilbert (nachweise?) oder
   Erdos-Renyi verwendet. Diese Graphen haben die Besonderheit, dass die 
   Wahrscheinlichkeit für eine Verbindung zwischen je zwei Knoten im 
-  gesammten Netzwerk konstant ist. Dadurch ensteht ein gleichmäßiger Graph,
+  gesamten Netzwerk konstant ist. Dadurch entsteht ein gleichmäßiger Graph,
   dessen Gradverteilung binomial verteilt sind, und somit die meisten Knoten 
   die gleiche Anzahl an Kanten haben. Mit Hilfe der Wahrscheinlichkeitstheorie,
   lassen sich nun die Eigenschaften dieser Graphen auch für eine sehr hohe Anzahl
   an Knoten bestimmen und untersuchen.
   
-  Allerdings haben Untersuchungen von realen Netzen gezeigt (nachweis), dass sich
+  Allerdings haben Untersuchungen von realen Netzen gezeigt (Nachweis), dass sich
   diese in den meisten Fällen von Zufallsgraphen unterscheiden. Reale Netzwerke sind
-  häufig sogenannte Skalenfreie Netze (im Englischen 'Scale-free networks'), in 
+  häufig sogenannte Skalen freie Netze (im Englischen 'Scale-free networks'), in 
   denen die Anzahl der Verbindungen pro Knoten nicht binomial verteilt ist, sonder nach einem
-  Potentzgesetz. Dadurch einsteht ein Netzwerk, in dem einzelne wenige Knoten eine große
+  Potenzgesetz. Dadurch einsteht ein Netzwerk, in dem einzelne wenige Knoten eine große
   Anzahl an Verknüpfungen aufweisen, doch die Mehrzahl der Knoten weniger stark verknüpft ist. 
   Weiterhin ist die Kantenverteilung zwischen den Knoten auch lokal sehr inhomogen, so dass sich 
   Teilgraphen ausbilden, deren Knoten untereinander sehr stark bis komplett verknüpft sind,
   während sie nach Außen weniger Verbindungen aufweisen. Diese Teilgraphen werden auch 'Cluster' genannt.
 
   Diese Cluster spielen in viele Anwendungsgebieten eine wichtige Rolle. 
-  Betrachtet man zum Beispiel den Graph der Freundschafts Beziehungen in einem sozialen Netzwerk,
-  lassen sich mithilfe von Angaben anderer Benutzer, sowie lokaler Cluster, unter anderem Rückschlüße 
+  Betrachtet man zum Beispiel den Graph der Freundschaftsbeziehungen in einem sozialen Netzwerk,
+  lassen sich mithilfe von Angaben anderer Benutzer, sowie lokaler Cluster, unter anderem Rückschlü"se 
   auf gemeinsame Interessen, Wohnorte oder Freunde der einzelnen Benutzer schließen.
   Diese Informationen bieten dem soziale Marketing eine bis vor kurzem unbekannte Menge
   an Möglichkeiten ihre Produkte zielgerichteter und persönlicher zu vermarkten.
@@ -121,17 +122,17 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
   \subsection{Eigenschaften von Clustern}
   \label{sec:properties} 
   Der Artikel von S.E. Schaeffer \cite{Schaeffer} bietet eine umfassende Zusammenfassung
-  über bisherige Clustering Verfahren, und versucht eine Defintion für 
-  Cluster anhand gewünschter Eigenschafter zu geben.
+  über bisherige Clustering Verfahren, und versucht eine Definition für 
+  Cluster anhand gewünschter Eigenschaften zu geben.
   
   Betrachtet man den Teilgraphen $\Omega$ eines kompletten Graphen $\Upsilon$, so müssen
   mehrere Bedingungen erfüllt sein, damit $\Omega$ ein Cluster wird.
   Natürlich sollten alle Knoten aus $\Omega$ verbunden sein, was bedeutet das 
   zwischen jedem Paar aus Knoten $u$ und $v$ mit $u,v \in \Omega$ ein Pfad existiert. 
-  Ist dies nicht der Fall so ist der gesammte Graph nicht verbunden, und das 
+  Ist dies nicht der Fall so ist der gesamte Graph nicht verbunden, und das 
   Clustering sollte auf den einzelnen Teilgraphen gesondert betrachtet werden.
   Weiterhin sollte der Teilgraph $\Omega$ eine hohe Kantendichte zwischen seinen Knoten
-  aufweisen. Dies ist der Fall, wenn mehere Pfade zwischen den Knoten aus $\Omega$ existieren,
+  aufweisen. Dies ist der Fall, wenn mehrere Pfade zwischen den Knoten aus $\Omega$ existieren,
   so dass jeder Pfad möglichst wenig Elemente aus $\Upsilon \setminus \Omega$ enthält.
   
   Der Grad $d(v)$ eines Knoten $v$ ist definiert als die Anzahl der Kanten zu anderen Knoten im
@@ -152,7 +153,7 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
    
   Eine weiteres Kriterium für die Qualität eines Clusters ist die sogenannte interne Clusterdichte.
   Die allgemeine Dichte eines Graphen $\Upsilon = (V,E)$ mit der Knotenmenge $V$ und der Kantenmenge
-  $E$ ist definiert als das Verhältniss der Summer aller Kanten durch die Anzahl aller 
+  $E$ ist definiert als das Verhältnis der Summer aller Kanten durch die Anzahl aller 
   möglichen Kanten in Graph:
     \begin{align}
       \rho(\Upsilon) = \frac{|E|}{\binom{|V|}{2}} = \frac{2|E|}{|V|(|V|-1)}
@@ -166,16 +167,16 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
   zwar die gleiche Kante darstellen, aber zwei unterschiedliche Elemente sind, wodurch die Anzahl
   der Kanten in $\{\{u,v\} |u,v \in \Omega \}$ verdoppelt wird.
   
-  Zusätzlich zur internen Clusterdichte, existert noch eine sogenannte externe Clusterdichte 
+  Zusätzlich zur internen Clusterdichte, existiert noch eine sogenannte externe Clusterdichte 
   zwischen verschiedenen Clustern $\Omega_i$ eines Graphen $\Upsilon$. Sie ist definiert als
-  das Verhältniss der Summe aller Kanten zu der Summe aller möglichen Kanten zwischen den
+  das Verhältnis der Summe aller Kanten zu der Summe aller möglichen Kanten zwischen den
   verschiedenen Clustern $\Omega_i$:
     \begin{align}
       \rho_{ext}(\Upsilon|\Omega_1 ... \Omega_k) = \frac{|\{\{v,u\} | v\in \Omega_i\, u \in \Omega_j, i \neq j\}|}
                                                         {|V|(|V|-1)-\sum\limits_{l=1}^k |\Omega_k|(|\Omega_k|-1)}
     \end{align}
   wobei $|\Omega_i|$ die Anzahl der Knoten des Teilgraphen $\Omega_i$ darstellt.
-  Im Allgmeinen sollte f"ur ein gutes Clustering auf einem Graph $\Upsilon$ gelten:
+  Im Allgemeinen sollte f"ur ein gutes Clustering auf einem Graph $\Upsilon$ gelten:
     \begin{align}
       \rho_{int}(\Omega_i) > \rho(\Upsilon) > \rho_{ext}(\Upsilon|\Omega_1 ... \Omega_k) \\ 
       			\forall i=1...k \notag
@@ -183,11 +184,11 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
   
   Abb.~\ref{fig:comp_cluster} zeigt drei verschiedene Cluster unterschiedlicher Qualität im Vergleich.
   Dabei representieren die schwarz hervorgehobenen, beliebig gewählten Teilgraphen jeweils 
-  einen Cluster. Der linke Cluster weist eine sehr hohe intere
-  Dichte auf, und hat kaum Kanten mit Knoten ausserhalb. Daher ist Qualität dieses Clusters
+  einen Cluster. Der linke Cluster weist eine sehr hohe interne
+  Dichte auf, und hat kaum Kanten mit Knoten au"serhalb. Daher ist Qualität dieses Clusters
   sehr hoch. Der mittlere Cluster hat zwar die gleiche Anzahl an internen Kanten, weist
-  aber im Gegensatz zum Linken eine wesentliche höhere Kantenanzahl zu Knoten ausserhalb des
-  Cluster auf. Zwar hat der rechte Cluster nur wenige Kanten nach aussen, allerdings ist aber
+  aber im Gegensatz zum Linken eine wesentliche höhere Kantenanzahl zu Knoten au"serhalb des
+  Cluster auf. Zwar hat der rechte Cluster nur wenige Kanten nach au"sen, allerdings ist aber
   die Kantendichte innerhalb des Clusters minimalst, was ihn zum schlechtesten Cluster der drei macht.
 
   \begin{figure}[h]
@@ -214,7 +215,7 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
   	interne Graphdichte mit $\rho_{int}(\Omega)=1$ maximal. Somit stellen k-Cliques theoretisch gute 
   	Kandidaten f"uer Cluster da. Beschr"ankt man sich bei der Clusterfindung auf einzelne k-Cliques,
   	werden in den meisten F"allen viele Cluster nicht gefunden, da Forderung an einen vollst"andig
-  	verknupften Cluster zu restrektiv ist.
+  	verkn"upften Cluster zu restriktiv ist.
     
   \subsection{Dynamische Graphen}
 	Ein klassicher Graph $\Omega=(V,E)$ ist eine Kombination einer Menge an Knoten $V$ und
@@ -237,7 +238,7 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
   Viele Clustering Verfahren f"ur dynamische Graphen basieren auf Verfahren zur Clusterung klassischer,
   statischer Graphen. Da dynamische Graphen aufgrund der Zeitanh"angigkeit weitere Komplexit"at einf"uhren,
   ist es sinnvoll als erstes diese Clusteringmethoden f"ur statische Graphen zu betrachten.
-  In diesem Kaptiel wird versucht die Vielzahl verschiedener Verfahren anhand ihrer grunds"atzlichen Eigenschaften
+  In diesem Kapitel wird versucht die Vielzahl verschiedener Verfahren anhand ihrer grunds"atzlichen Eigenschaften
   in verschiedene Kategorien zu klassifizieren, sowie eine kurze Erkl"arung ihrer Funktionsweise zu geben.
   
   Nach Schaeffer \cite{Schaeffer} lassen sich Clustering Verfahren grunds"atzlich in lokale oder globale
@@ -277,11 +278,11 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
   \emph{Bottom-Up} Methoden \cite{Schaeffer} unterteilen. Bei Top-Down Verfahren wird der Graph rekursiv anhand
   verschiedener Kriterien in immer kleinere Methoden unterteilt, w"ahrend bei Bottom-Up Verfahren
   viele kleinere Cluster sukzessive zu gr"osseren zusammen gefasst werden, bis das Clustering einem
-  Abbruchkriterum gen"ugt.
+  Abbruchkriterium gen"ugt.
   
   Ein Vertreter der Top-Down Methoden, sind die sogenannten \emph{Spektralen Methoden}. Sie basieren auf den
   Eigenwerten und Vektoren der Laplace-Matrix des Graphen. Die Laplace Matrix eines Graph
-  $\Omega=(V,E)$ ist definert als
+  $\Omega=(V,E)$ ist definiert als
   \begin{align}
     L(\Omega)&=D(\Omega)-A(\Omega)
   \end{align}
@@ -295,8 +296,8 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
   \end{align}
   Da die Laplace Matrix eine symmetrische, positiv semidefinite Matrix ist \cite{graphcontrol}, sind alle Eigenwerte $\lambda_i \ge 0$
   und die korrespondierenden Eigenvektoren bilden ein orthogonales System. Ordnet man die Eigenwerte in
-  aufsteigener Reihenfolge $\lambda_1 \le \lambda_2 \le \dots \le \lambda_n$, so folgt aus der positiv Semidefinitheit
-  von L dass $\lambda_1 = 0$. Ist weiterhin $\lambda_2 > 0$ so exisitieren keine isolierten Teilgraphen im kompletten
+  aufsteigender Reihenfolge $\lambda_1 \le \lambda_2 \le \dots \le \lambda_n$, so folgt aus der positiv Semidefinitheit
+  von L dass $\lambda_1 = 0$. Ist weiterhin $\lambda_2 > 0$ so existieren keine isolierten Teilgraphen im kompletten
   Graph[Buch]. Die Algorithmen der spektralen Clustering Methoden benutzen typischerweise die Komponenten des Fiedler
   Vektors -den Eigenvektor von $\lambda_2$- um die Knoten eins Graphen zu vergleichen und clustern \cite{Schaeffer}.
 
@@ -305,14 +306,16 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
   Dabei wird $\xi$, ausgehend von einem Startknoten $v_{start}$, iterativ "uber eine zuf"allige Auswahl
   der direkten Nachbarn des jeweils aktuellen Knoten aufgebaut. Aufgrund der h"oheren Dichte in Clustern, wird der Weg
   $\xi$ die Knoten des selben Clusters wie $v_{start}$ h"aufiger besuchen als Knoten ausserhalb des Clusters.
-  Abb. \ref{fig:random_walk} zeigt einen Beispielgraph mit zwei Clustern. Wird ein Weg ausgehend von einem weissen
+  Abb. \ref{fig:random_walk} zeigt einen Beispielgraph mit zwei Clustern. Wird ein Weg ausgehend von einem weisen
   Knoten aufgebaut, ist es f"ur einen zuf"alligen Weg nur auf einem Knoten m"oglich den linken Cluster zu verlassen,
-  und somit werden die weissen Knoten des linken Clusters mit einer h"oheren Wahrscheinlichkeit besucht. 
+  und somit werden die weisen Knoten des linken Clusters mit einer h"oheren Wahrscheinlichkeit besucht. 
 
     \begin{figure}[h]
     \centering
     \includegraphics[width=2in]{images/random_walk}
-    \caption{\label{fig:random_walk} \cite{Schaeffer}}
+    \caption{\label{fig:random_walk} Graph mit zwei Clustern. Beginnt man einen Random Walk bei einem Knoten des weisen Clusters
+	      ist die Wahrscheinlichkeit im n"achsten Schritt einen weiteren weisen Knoten dieses Clusters zu erreichen h"oher,
+	      als den Cluster zu verlassen \cite{Schaeffer}}
     \end{figure}
     
   F"ur gewichtete Graphen eignen sich auch die \emph{Maximaler Fluss Methoden} um ein Clustering duchzuf"uhren. Sie
@@ -334,17 +337,17 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
   
   \subsection{Modularit"atsoptimierung}
     \label{sec:modularity}
-    Das Verfahren der Modularit"atsoptimierung ist ein weiterer Vertreter der Bottom-Up Ans"atze. Es versucht eine Paritionierung
+    Das Verfahren der Modularit"atsoptimierung ist ein weiterer Vertreter der Bottom-Up Ans"atze. Es versucht eine Partitionierung
     des Graphen zu finden, f"ur die die Modularit"at maximal wird. Hierbei ist die Modularit"at ein Ma"s, in wie fern die gew"ahlte
-    Partitionierung $C(\Omega)$ eines Graphen $\Omega$ einem guten Clustering entspricht. Gesucht ist somit eine optimale Paritionierung welche dem Clustering des Graphen entspricht.
+    Partitionierung $C(\Omega)$ eines Graphen $\Omega$ einem guten Clustering entspricht. Gesucht ist somit eine optimale Partitionierung welche dem Clustering des Graphen entspricht.
     Mathematisch ist die Modularit"at $Q(C)$ definiert als \cite{modularity}:
     \begin{align}
       Q(C)=\frac{1}{2|E|}\sum\limits_{u,v \in V}\left[ A_{uv} - \frac {k_vk_u}{2|E|}\delta \left( c(u), c(v)\right) \right]
     \end{align}
     wobei $A_{uv}=1$ falls eine Kannte zwischen $u$ und $v$ existiert, ansonsten 0. $k_u = d(u)$ ist der Grad des Knoten, und
-    $c(u)$ diejenige Parition die den Knoten $u$ enthält. Weiterhin ist $\delta \left(c(u),c(v)\right)$ falls $c(u)=c(v)$,
+    $c(u)$ diejenige Partition die den Knoten $u$ enthält. Weiterhin ist $\delta \left(c(u),c(v)\right)$ falls $c(u)=c(v)$,
     ansonsten 0.
-    Somit representiert die Modularit"at die Summe aller Kanten innerhalb einer Partition minus der Anzahl der Kanten, falls diese 
+    Somit repräsentiert die Modularit"at die Summe aller Kanten innerhalb einer Partition minus der Anzahl der Kanten, falls diese 
     zuf"allig verteilt w"aren.
     
     Der trivialste Ansatz diejenige Partitionierung $C(\Omega)$ zu finden welche die Modularit"at maximiert, w"are die Berechnung
@@ -380,7 +383,7 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
       		je einem Knoten der beiden Cluster existiert und das Gewicht dieser Kante ist die Summer
       		der Gewichte aller Kanten zwischen diesen Clustern. Kanten innerhalb eines Cluster f"uhren zu einem
       		Selfloop dessen Gewicht die Summer der Gewichte dieser Kanten ist. 
-      \item F"uhre Schritte 1-3 wiederrum auf den neuen Graph aus, solange bis die Modularit"at nicht
+      \item F"uhre Schritte 1-3 wiederum auf den neuen Graph aus, solange bis die Modularit"at nicht
       		weiter erh"oht werden kann.
     \end{enumerate}
     
@@ -402,8 +405,9 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
     in einem Netzwerk zu finden, welche vor allem in sozialen Netzwerken auftreten.
     \begin{figure}[h]
      \centering
-     \includegraphics[width=2in]{images/k-cliques}
-     \caption{\label{fig:CPM} aus paper}
+     \includegraphics[width=2.5in]{images/k-cliques}
+     \caption{\label{fig:CPM} Gefundene 3-Clique Cluster zweier zuf"alliger Graphen. In beiden Graphen werden jeweils zwei
+		Cluster gefunden, welche schwarz und grau hervorgehoben sind \cite{CPM}}
     \end{figure}
 
 
@@ -421,7 +425,7 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
   besteht.
   
   Die andere Klasse der Clusteringverfahren dynamischer Graphen wird hier \emph{Time-step Clustering} genannt. Im Gegensatz zu den evolution"aren
-  Clusteringverfahren, wird ein Clusteringverfahren seperat au den statischen Graph jedes einzelnen Zeitschritts angewendet. Dies hat den Vorteil das
+  Clusteringverfahren, wird ein Clusteringverfahren separat auf den statischen Graph jedes einzelnen Zeitschritts angewendet. Dies hat den Vorteil das
   Clusteringverfahren statischer Graphen, somit auch die in Kap. \ref{sec:static_clustering} vorgestellten Verfahren, ohne Modifikation
   verwendet werden k"onnen. Da nur die Informationen des aktuellen Zeitschritt verwendet werden, dass sich die gefunden Cluster in konsekutiven
   Zeitschritten sehr stark "andern.
@@ -440,11 +444,11 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
     entstehen, ebenso kann sich ein bestehender Cluster aufl"osen. Weiterhin k"onnen neue Cluster entstehen, falls sich bisherige grosse Cluster
     teilen. Ebenso ist das Gegenteil m"oglich, und mehrere kleinere Cluster formieren sich im n"achsten Zeitschritt zu einem Grossen.
     Im einfachsten Fall bleib ein Cluster im n"achsten Zeitschritt konstant, w"achst oder schrumpft indem neue Knoten hinzukommen oder weggehen.
-    In Abb. \ref{fig:evolution} sind alle m"oglichen Ereignisse nocheinmal dargestellt.
+    In Abb. \ref{fig:evolution} sind alle m"oglichen Ereignisse noch einmal dargestellt.
     \begin{figure*}[t]
       \centering
       \includegraphics[width=11cm]{images/evolution_alone}
-      \caption{\cite{CPM_time}}
+      \caption{M"ogliche Ereignisse im zeitlichen Verlauf eines Clusters \cite{CPM_time}}
       \label{fig:evolution}
     \end{figure*}
   \subsection{Erweiterung der CPM}
@@ -455,21 +459,21 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
     
     Im ersten Schritt wird mithilfe der CPM f"ur statische Graphen jeweils ein Clustering f"ur $\Omega_{t}$ und $\Omega_{t+1}$ durchgef"uhrt.
     Anschlie"send wird ein Verbundgraph $\Omega_{t,t+1} = \Omega_{t} \cup \Omega_{t+1}$ konstruiert, welcher alle Knoten und Kanten aus
-    $\Omega_t$ und $\Omega_{t+1}$ enth"alt. Auf diesen Verbundgraph wird wiederum eine CPM angewendet. Da bei der Vereinung zweier Graphen
+    $\Omega_t$ und $\Omega_{t+1}$ enth"alt. Auf diesen Verbundgraph wird wiederum eine CPM angewendet. Da bei der Vereinigung zweier Graphen
     keine Kanten oder Knoten entfernt werden, existiert f"ur jeden Cluster in $\Omega_t$ und $\Omega_{t+1}$ genau ein Cluster in $\Omega_{t,t+1}$.
     Enth"alt ein Cluster im Verbundgraph jeweils einen einzelnen Cluster aus $\Omega_t$ und einen einzelnen Cluster aus $\Omega_{t+1}$,
-    so k"onnen diese indentifiziert werden. Falls ein Cluster des Verbundsgraph mehrere Cluster der aus $\Omega_t$ oder $\Omega_{t+1}$
+    so k"onnen diese identifiziert werden. Falls ein Cluster des Verbundsgraph mehrere Cluster der aus $\Omega_t$ oder $\Omega_{t+1}$
     enth"alt, werden die Cluster anhand des relativen Knoten "Uberlapps identifiziert. Details des Verfahren in \cite{CPM_time}.
     
     In Abb. \ref{fig:CPM_time} werden die einzelnen Schritte der CPM Erweiterung graphisch dargestellt. Der Graph zum Zeitpunkt $t$ wird
     in blau dargestellt, der Graph zum Zeitpunkt $t+1$ in gelb. Die Kreise zeigen die jeweils gefundenen Cluster an. Der Verbundgraph ist
-    in der Mitte dargestellt. Gr"un gef"arbte Knoten und Kanten sind dabei in beiden Zeitschritten verhanden, blau und gelbe nur in den
+    in der Mitte dargestellt. Gr"un gef"arbte Knoten und Kanten sind dabei in beiden Zeitschritten vorhanden, blau und gelbe nur in den
     Zeitschritten entsprechender Farbe.
     
     \begin{figure}[h]
       \centering
       \includegraphics[width=3in]{images/CPM_time}
-      \caption{\label{fig:CPM_time} asdf \cite{CPM_time}}
+      \caption{\label{fig:CPM_time} Zwei Zeitschritte eines dynamischen Graphen. Der mittlere Graph ist die Vereinigung der Graphen beider Zeitschritte \cite{CPM_time}}
     \end{figure}
 
     
@@ -479,12 +483,12 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
     in Kap. \ref{sec:evolution} gezeigten Ereignissen basiert. Da es weiterhin unabh"angig vom verwendeten Clustering Verfahren ist,
     l"asst es sich mit allen in Kap. \ref{sec:static_clustering} vorgestellten Verfahren kombinieren.
     
-    Betracheten man einen dynamischen Graphen $\Upsilon = \{ \Omega_1, \dots, \Omega_n \}$ als eine geordnete Folgen statischer
+    Betrachtet man einen dynamischen Graphen $\Upsilon = \{ \Omega_1, \dots, \Omega_n \}$ als eine geordnete Folgen statischer
     Graphen $\Omega_t$ zum Zeitpunkt $t$ und wendet ein Time-Step Clustering an, erh"ahlt man ein Clustering
     $\mathbb{C}_t = \{ C_{t,1}, \dots, C_{t,k}\}$ f"ur jeden einzelnen Zeitschritt.
     
     Ein Kernkonzept des in \cite{timestep} vorgestellten Verfahrens sind sogenannte \emph{Dynamic Communities}. Diese Dynamic
-    Communites $D_i$ respresentieren den zeitlichen Verlauf eines einzelnen Cluster $C_i$ im Graph. Sie lassen sich als eine zeitlich 
+    Communities $D_i$ repräsentieren den zeitlichen Verlauf eines einzelnen Cluster $C_i$ im Graph. Sie lassen sich als eine zeitlich 
     geordnete Folge $D_i = \{ C_{1,i}, \dots, C_{n,i} \}$ einzelner Konfigurationen des Clusters $C_i$ zu unterschiedlichen Zeitpunkten
     darstellen. Abb. \ref{fig:dynamic1} zeigt den Verlauf dreier Dynamic Communities "uber drei Zeitschritte. Es ist an $D_3$ ersichtlich das
     nicht f"uer alle Zeitschritte eine Konfiguration $C_{t,i}$ vorhanden sein muss. Die zeitlich letzte bekannte Konfiguration
@@ -492,7 +496,7 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
     \begin{figure}[h]
       \centering
       \includegraphics[width=2.5in]{images/dynamic_communities1}
-      \caption{\label{fig:dynamic1}\cite{timestep}}
+      \caption{\label{fig:dynamic1} Drei Dynamic Communities "uber drei Zeitschritte, bei denen Geburt und Todesereignisse auftreten.\cite{timestep}}
     \end{figure}
     
     Die Dynamic Communities in Abb \ref{fig:dynamic1} sind:
@@ -519,12 +523,12 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
 	    $F_i$ verglichen. Ist $d>1$ so kann eine Dynamic Community mehrere Zeitschritte ohne einen entsprechenden Cluster des aktuellen Zeitschritts bestehen.
 	    Ein Beispiel f"ur den Tod einer Dynamic Community ist $D_3$ in Abb. \ref{fig:dynamic1}, falls f"ur $t>3$ keine Cluster gefunden werden welche $F_3$ entsprechen.
       \item \textbf{Zusammenschluss:} \hfill \\
-	    Zwei Dynamic Communites fallen zusammen, falls ein Cluster $C_{t,m}$ zwei Fronten $F_i$ und $F_j$ zugeordnet werden kann. Beiden Dynamic Communities
+	    Zwei Dynamic Communities fallen zusammen, falls ein Cluster $C_{t,m}$ zwei Fronten $F_i$ und $F_j$ zugeordnet werden kann. Beiden Dynamic Communities
 	    $D_i$ und $D_j$ wird der Cluster $C_{t,m}$ hinzugef"ugt. Ein Beispiel hierf"ur sind $D_1$ und $D_2$ in Abb. \ref{fig:dynamic2}.
       \item \textbf{Trennung:} \hfill \\
 	    Lassen sich zwei Cluster $C_{t,i}$ und $C_{t,j}$ der gleichen Front $F_m$ zuordnen, so teilt sich die Dynamic Community im aktuellen Zeitschritt.
 	    Dabei wird $D_m$ einer der beiden Cluster $C_{i,t}$ oder $C_{j,t}$ hinzugef"ugt, und eine neue Dynamic Community $D_l$ angelegt, welche die bisherigen
-	    Elemenet von $D_m$ enth"alt, zus"atzlich des anderen Clusters.
+	    Elemente von $D_m$ enth"alt, zus"atzlich des anderen Clusters.
 	    Ein Beispiel sind die Dynamic Communities $D_3$ und $D_4$ in Abb. \ref{fig:dynamic2}.
     \end{itemize}
     Somit sind die Dynamic Communities in Abb. \ref{fig:dynamic2}:
@@ -539,7 +543,7 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
     \begin{figure}[b]
       \centering
       \includegraphics[width=2.5in]{images/dynamic_communities2}
-      \caption{\label{fig:dynamic2} \cite{timestep}}
+      \caption{\label{fig:dynamic2}  Drei Dynamic Communities, bei denen ein Zusammenschluss und Trennungsereigniss auftritt \cite{timestep}}
     \end{figure}
     Folgende Schritte werden somit im \cite{timestep} vorgestellten Algorithmus durchgef"uhrt:
     \begin{enumerate}
@@ -557,11 +561,22 @@ Furthermore, we describe an extension of the k-clique percolation algorithm to d
 	    Anschlie"send werden die Fronten $F_i$ aller aktiven Communties auf den letzten bekannten Cluster aktualisiert.
       \item Wiederhole ab Schritt 2 bis alle Zeitschritte verarbeitet wurden.
     \end{enumerate}
-    Hierbei entspricht der Schritt 3. (b) der Geburt einer neuen Community, der Schritt 3. (c) einem Zusammenschluss meherer Communities falls Anzahl der "ubereinstimmenden
-    Fronten $>1$ ist. In Schritt 4. wird der Fall behandelt, falls sich eine bestehende Dynamic Community in mehere aufteilt.
+    Hierbei entspricht der Schritt 3. (b) der Geburt einer neuen Community, der Schritt 3. (c) einem Zusammenschluss mehrere Communities falls Anzahl der "ubereinstimmenden
+    Fronten $>1$ ist. In Schritt 4. wird der Fall behandelt, falls sich eine bestehende Dynamic Community in mehrere aufteilt.
 
 \section{Fazit}
-  In diesem Artikel wurden bla bla bla
+  In diesem Artikel wurde eine "Ubersicht verschiedenster Graphclustering Verfahren gegeben. Das Forschungsgebiet des Clustering statischer Graphen ist sehr gut
+  erforscht, was die Vielzahl der vorgestellten Verfahren best"atigt. Hierbei stellen die Verfahren aus Kap. \ref{sec:static_clustering} nur eine sehr grobe "Ubersicht
+  dar, da oftmals Variationen und zus"atzliche Heuristiken bestehen. Eine detaillierte Beschreibung, sowie weiterf"uhrende Literatur ist in \cite{Schaeffer} gegeben.
+  In den letzten Jahren hat sich der Fokus der Forschung auf diesem Gebiet in Richtung dynamischer Graphen verschoben. Zwar ist es mit dem in \cite{timestep} vorgestellten
+  Framework m"ogliche, jedes statische Clustering Verfahren auch f"ur dynamische Graphen anzuwenden, allerdings haben Time-Step Verfahren den Nachteil, dass gefunden Cluster
+  durchaus "uber mehrere Zeitschritte sehr stark schwanken k"onnen.
+  
+  Pers"onlich sehe ich das gr"o"ste Potential in lokalen Verfahren wie der CPM. Diese bieten den Vorteil das der komplette Graph a priori nicht vorhanden sein muss, 
+  dass das Clustering au"sschlie"slich auf bestimmte Bereiche angewendet werden kann und das bei lokalen "Anderungen nicht das komplette Clustering neu berechnet werden muss.
+  Zwar ist die CPM aufgrund der maximalen Graphdichte der k-Cliques sehr restriktiv, allerdings existieren weitere Ideen, welche aus gefunden k-Cliques, sowie dem
+  relativen Knoten"uberlapp benachbarter k-Cliques einen gewichteten Clique-Graph\cite{clique_graph} aufbauen, und somit neue M"oglichkeiten zur Clusterung bieten.
+    
 \bibliographystyle{abbrv}
 %% use following if all content of bibtex file should be shown
 % \nocite{*}
