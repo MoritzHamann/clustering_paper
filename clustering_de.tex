@@ -57,7 +57,7 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
 \teaser{ \centering
   \includegraphics[width=16cm]{images/teaser}
   \caption{Zwei Graphen mit je 84 Knoten und 358 Kanten, welche beide mit einem Spring-Force Algorithmus visualisiert wurden. Man sieht deutlich die
-  lokalen Inhomogenit"aten im linken Graph, der eine ``Relaxed Caveman'' Struktur hat. Der rechte Graph ist ein  zuf"alliger Random Graph \cite{Schaeffer}}
+  lokalen Inhomogenit"aten im rechten Graph, der eine ``Relaxed Caveman'' Struktur hat. Der linke Graph ist ein  zuf"alliger Random Graph \cite{Schaeffer}}
 }
 
 
@@ -78,7 +78,7 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
   Das mathematische Konzept der Graphen ist ein essentielles 
   Modellierungswerkzeug in der Informatik. Damit lassen sich nicht nur
   verschiedenste Datenstrukturen anschaulich dargestellten, sondern
-  sie eignen sich auch zur Modelierung und Untersuchung jegliche Beziehungen zwischen einzelnen
+  sie eignen sich auch zur Modelierung und Untersuchung von Beziehungen zwischen einzelnen
   Objekten oder Prozessen in einem Netzwerk.
   Aus diesem Grund sind sie heutzutage nicht nur in der klassischen Informatik
   sowie in der Mathematik zu finden, sondern haben auch in vielen anderen
@@ -100,8 +100,8 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
   Allerdings haben Untersuchungen realer Netze gezeigt, dass sich
   diese in den meisten Fällen von Zufallsgraphen unterscheiden. Reale Netzwerke sind
   häufig sogenannte Skalen freie Netze (im Englischen 'Scale-free networks'), in 
-  denen die Anzahl der Verbindungen pro Knoten nicht binomial verteilt ist, sonder nach einem
-  Potenzgesetz. Dadurch einsteht ein Netzwerk, in dem einzelne wenige Knoten eine große
+  denen die Anzahl der Verbindungen pro Knoten nicht binomial verteilt ist, sonder einem
+  Potenzgesetz folgt. Dadurch einsteht ein Netzwerk, in dem einzelne wenige Knoten eine große
   Anzahl an Verknüpfungen aufweisen, doch die Mehrzahl der Knoten weniger stark verknüpft ist. 
   Weiterhin ist die Kantenverteilung zwischen den Knoten auch lokal sehr inhomogen, so dass sich 
   Teilgraphen ausbilden, deren Knoten untereinander sehr stark bis komplett verknüpft sind.
@@ -127,15 +127,11 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
   
   Betrachtet man den Teilgraphen $\Omega$ eines kompletten Graphen $\Upsilon$, so müssen
   mehrere Bedingungen erfüllt sein, damit aus $\Omega$ ein guter Cluster wird.
-  Alle Knoten aus $\Omega$ sollten verbunden sein, was bedeutet das 
-  zwischen jedem Paar aus Knoten $u,v \in \Omega$ mindestens ein Pfad existiert. 
-  
-  Mithilfe des Grads eines Knoten l"asst sich eine weitere essentielle Eigenschaft definieren.
+  Mithilfe des Grads eines Knoten l"asst sich eine erste wichtige Eigenschaft definieren.
   Der Grad $d(v)$ eines Knoten $v$ ist definiert als die Anzahl der Kanten zu anderen Knoten im
-  Graphen $\Upsilon$. Ist nun $v \in \Omega$ wobei $\Omega$ wieder ein Teilgraph von $\Upsilon$
-  ist, so lässt sich der Grad in einen externen und internen Teil unterscheiden. Dabei
+  Graphen $\Upsilon$. Ist nun $v \in \Omega$, so lässt sich der Grad in einen externen und internen Teil unterscheiden. Dabei
   ist der interne Grad die Anzahl der Kanten von $v$ zu anderen Knoten aus $\Omega$, der externe
-  Grad die Anzahl der Kanten von $v$ zu allen anderen Knoten aus $\Upsilon \setminus \Omega$.
+  Grad die Anzahl der Kanten von $v$ zu Knoten aus $\Upsilon \setminus \Omega$.
   Dabei gilt:
     \begin{align}
       d_{int}(v, \Omega) &= |\Gamma(v) \cap \Omega |\\
@@ -209,7 +205,7 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
   	
   	Da jede k-Clique vollst"andig ist, ist die in Kapitel \ref{sec:properties} definierte
   	interne Graphdichte mit $\rho_{int}(\Omega)=1$ maximal. Somit stellen k-Cliques theoretisch gute 
-  	Kandidaten f"uer Cluster da. Beschr"ankt man sich bei der Clusterfindung auf einzelne k-Cliques,
+  	Kandidaten f"ur Cluster da. Beschr"ankt man sich allerdings bei der Clusterfindung auf einzelne k-Cliques,
   	werden in den meisten F"allen nur Cliques f"ur geringe Werte von $k$ gefunden, da Forderung an einen vollst"andig
   	verkn"upften Cluster zu restriktiv ist.
     
@@ -233,12 +229,12 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
 
   Viele Clustering Verfahren f"ur dynamische Graphen basieren auf Verfahren zur Clusterung klassischer,
   statischer Graphen. Da dynamische Graphen aufgrund der Zeitanh"angigkeit weitere Komplexit"at einf"uhren,
-  ist es sinnvoll als erstes diese Clusteringmethoden f"ur statische Graphen zu betrachten.
+  ist es sinnvoll als erstes diese statsichen Clusteringmethoden zu betrachten.
   In diesem Kapitel wird versucht die Vielzahl verschiedener Verfahren anhand ihrer grunds"atzlichen Eigenschaften
-  in verschiedene Kategorien zu klassifizieren, sowie eine kurze Erkl"arung ihrer Funktionsweise zu geben.
+  in Kategorien zu unterteilen, sowie eine kurze Erkl"arung ihrer Funktionsweise zu geben.
   
   Nach Schaeffer \cite{Schaeffer} lassen sich Clustering Verfahren grunds"atzlich in lokale oder globale
-  Verfahren einteilen. Hierbei werden die Verfahren entweder global auf den ganzen Graph angewendet,
+  Methoden einteilen. Hierbei werden die Verfahren entweder global auf den ganzen Graph angewendet,
   oder nur lokal auf einen Teilgraphen. Entsprechend ben"otigen globale Verfahren Informationen "uber 
   die Topologie des gesammten Graphen, w"ahrend bei bei lokalen Verfahren nur rekursiv die Nachbarschaft
   eines einzelnen Knotens betrachtet wird, somit auch Netzwerke betrachtet werden k"onnen, die a priori
@@ -246,7 +242,7 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
   
   Somit bieten lokale Verfahren eine bessere Skalierbarkeit als Globale, falls das Clustering nur
   auf einen Teilgraphen angewendet werden soll, da die Topologie des restlichen Graphen nicht bekannt sein muss.
-  Weiterhin haben diese Verfahren den Vorteil, dass das Clustering nur von der lokalen Struktur anh"angt und eine
+  Weiterhin haben diese Verfahren den Vorteil, dass das Clustering nur von der lokalen Struktur abh"angt und eine
   lokale "Anderung im Graphen auch nur das Clusterung in deren Umgebung beeinflusst. Deshalb eignen sich lokale
   Verfahren in Anwendungen, bei denen die Nachbarschaft einzelner Knoten schnell und h"aufig untersucht werden soll.
   
@@ -273,12 +269,11 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
   Die Familie der globalen Verfahren l"asst sich noch mal in sogenannte \emph{Top-Down}, sowie
   \emph{Bottom-Up} Methoden \cite{Schaeffer} unterteilen. Bei Top-Down Verfahren wird ein gro"ser Startcluster rekursiv anhand
   verschiedener Kriterien in immer kleinere Teilcluster unterteilt, w"ahrend bei Bottom-Up Verfahren
-  viele kleinere Cluster sukzessive zu gr"osseren zusammen gefasst werden, bis das Clustering einem
+  viele kleinere Cluster sukzessive zu gr"o"seren zusammen gefasst werden, bis das Clustering einem
   Abbruchkriterium gen"ugt.
   
   Ein Vertreter der Top-Down Methoden, sind die sogenannten \emph{Spektralen Methoden}. Sie basieren auf den
-  Eigenwerten und Vektoren der Laplace-Matrix des Graphen. Die Laplace Matrix eines Graph
-  $\Omega=(V,E)$ ist definiert als
+  Eigenwerten und Vektoren der Laplace-Matrix eines Graphen $\Omega=(V,E)$. Diese ist definiert als:
   \begin{align}
     L(\Omega)&=D(\Omega)-A(\Omega)
   \end{align}
@@ -294,13 +289,13 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
   und die korrespondierenden Eigenvektoren bilden ein orthogonales System. Ordnet man die Eigenwerte in
   aufsteigender Reihenfolge $\lambda_1 \le \lambda_2 \le \dots \le \lambda_n$, so folgt aus der positiv Semidefinitheit
   von L dass $\lambda_1 = 0$. Ist weiterhin $\lambda_2 > 0$ so existieren keine isolierten Teilgraphen im kompletten
-  Graph\cite{graphcontrol}. Die Algorithmen der spektralen Clustering Methoden benutzen typischerweise die Komponenten des Fiedler
-  Vektors -den Eigenvektor von $\lambda_2$- um die Knoten eins Graphen in zwei verschiedene Cluster einzuteilen\cite{Schaeffer}.
+  Graph\cite{graphcontrol}. Die Algorithmen der spektralen Clustering Methoden benutzen nun typischerweise die Komponenten des Fiedler
+  Vektors -den Eigenvektor von $\lambda_2$- um die Knoten eins Graphen in zwei verschiedene Cluster zu unterteilen\cite{Schaeffer}.
 
   Ein weitere Gruppe von Methoden die den Top-Down Ansatz verfolgen, sind die sogenannten \emph{Random Walk} oder
   \emph{Markov Ketten Methoden}. Diese Verfahren basieren auf einem zuf"alligen Weg $\xi$ fester L"ange durch den Graph.
-  Dabei wird $\xi$, ausgehend von einem Startknoten $v_{start}$, iterativ "uber eine zuf"allige Auswahl
-  der direkten Nachbarn des jeweils aktuellen Knoten aufgebaut. Aufgrund der h"oheren Dichte in Clustern, wird der Weg
+  Dabei wird $\xi$ aufgebaut, indem rekursiv, beginnend von einem Startknoten $v_{start}$, jeweils ein Knoten
+  der direkten Nachbarn hinzugef"ugt wird. Aufgrund der h"oheren Dichte innerhalb eines Clusters, wird der Weg
   $\xi$ die Knoten des Clusters von $v_{start}$ h"aufiger besuchen als Knoten ausserhalb des Clusters.
   Abb. \ref{fig:random_walk} zeigt einen Beispielgraph mit zwei Clustern. Wird ein Weg ausgehend von einem weisen
   Knoten aufgebaut, ist es f"ur einen zuf"alligen Weg nur auf einem Knoten m"oglich den linken Cluster zu verlassen,
@@ -319,14 +314,14 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
   Dazu werden Str"omungsberechnungen auf dem Graphen durchgef"uhrt, wobei ein Fluss zwischen zwei Knoten nur "uber eine Verbindungskante bestehen kann.
   Da aufgrund des \emph{Minimum cut, maximum Flow Theorems} der Schnitt eins Graphen beim maximalen Fluss am geringsten ist, l"asst sich dieser "uber
   den maximalen Fluss auf den Kanten des Graphen finden. Flake et al.\cite{flake} berechneten hierzu den Fluss mithilfe k"unstlich hinzugef"ugter
-  Senken, und erzeugten daraus einen Minimum-cut Tree\cite{minimum_cut_tree} um das Clustering auf einem Graphen durchzuf"uhren.
+  Senken, und erzeugten daraus einen Minimum-cut Tree\cite{minimum_cut_tree} um das Clustering durchzuf"uhren.
   
   Beispiele f"ur Methoden, die einen Bottom-Up Ansatz verwenden sind unter anderem die \emph{Modularit"atsoptimierung} welche
   in Kaptiel \ref{sec:modularity} genauer behandelt wird. Eine weitere Vertreter ist die sogenannte \emph{N"achste Nachbarn Methode}\cite{Schaeffer}, welche
   h"aufig auch bei allgmeinen Klassifizierungsproblmen angewendet wird. Um die N"achste Nachbarn Methode auf Graphen anwenden
   zu k"onnen, muss eine "Ahnlichkeit zwischen zwei Knoten definiert werden. Eine solche "Ahnlichkeit
   kann z.B. anhand von vorhandenen Metadaten jedes Knoten erfolgen, oder anhand der Schnittmenge der direkten Nachbarn zweier
-  Knoten. Im ersten Schritt wird f"uer jeden Knoten des Graphen derjenige Nachbar gesucht, f"uer welchen die "Ahnlichkeit am gr"ossten ist.
+  Knoten. Im ersten Schritt wird f"ur jeden Knoten des Graphen derjenige Nachbar gesucht, f"ur welchen die "Ahnlichkeit am gr"ossten ist.
   Diese beiden Knoten bilden nun einen Cluster. In den darauffolgenden Schritten, werden nun die bereits gefunden Cluster auf "Ahnlichkeit
   untersucht, und zu gr"osseren Clustern zusammengef"ugt, bis das Clustering beendet ist.
   
@@ -344,11 +339,12 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
     $c(u)$ diejenige Partition die den Knoten $u$ enthält. Weiterhin ist $\delta \left(c(u),c(v)\right)=1$ falls $c(u)=c(v)$,
     ansonsten 0.
     Somit repräsentiert die Modularit"at die Summe aller Kanten innerhalb einer Partition minus der Anzahl der Kanten, falls diese 
-    zuf"allig verteilt w"aren.
+    zuf"allig verteilt w"aren. Daraus folgt, das die Modularit"at in einem Random Graph f"ur jede Partitionierung nahe $0$ ist,
+    und $>0$, falls die Kantendichte innerhalb einer Partition gr"o"ser als eine zuf"allige, gleichm"a"sige Verteilung ist.
     
     Der trivialste Ansatz diejenige Partitionierung $C(\Omega)$ zu finden welche die Modularit"at maximiert, w"are die Berechnung
     aller m"oglichen Partitionen und ihrer dazugeh"origien Modularit"at. Es ist aber offensichtlich, dass bei steigender 
-    Graphgr"osse die Anzahl m"oglicher Partitionen rasant steigt. Weiterhin wurde gezeigt \cite{modularity_nphard}, dass das Problem
+    Graphgr"o"se die Anzahl m"oglicher Partitionen rasant steigt. Weiterhin wurde gezeigt\cite{modularity_nphard}, dass das Problem
     eine optimale Partition zu finden NP-Vollst"andig ist.
     
     Eine optimale Partitionierung, und somit ein Clustering kann mithilfe der Heuristik von Blondel et al. \cite{modularity_heuristic}
@@ -370,8 +366,8 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
       \item F"ur jeden Knoten wird ein einzelner Cluster erstellt, der nur diesen einen Knoten enth"alt
       \item Berechnung der $\Delta Q$ f"ur das Verschieben eines Knoten $v_i$ in die Cluster seiner 
       		direkten Nachbarn. Anschlie"send wird $v_i$ in den Cluster desjenigen Nachbarn $v_j$ verschoben,
-      		dessen $\Delta Q$ am gr"ossten ist. Ist die Zunahme der Modularit"at f"ur jeden Nachbarn negativ,
-      		so bleibt der Knoten $v_i$ in seinem Cluster. Dieser Schritt wird solange wiederholt, bis sich
+      		dessen $\Delta Q$ am gr"o"sten ist. Ist $\Delta Q$ f"ur jeden Nachbarn negativ,
+      		so bleibt der Knoten $v_i$ in seinem Cluster. Dieser Schritt wird f"ur alle Knoten solange wiederholt, bis sich
       		ein lokales Maxima der Modularit"at einstellt. Dabei ist es durchaus m"oglich das ein Knoten
       		mehrmals betrachtet wird.
       \item Ist ein lokales Maxima erreicht, wird ein neuer Graph aufgebaut. Dabei entsprechen die bisherigen
@@ -408,26 +404,26 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
 
 \section{Clustering in dynamischen Graphen}
   \label{sec:dynamic_clustering}
-  Bei einem Clustering eines dynamischen Graphens, ist neben der Identifikation der Cluster ansich, auch deren
-  zeitlichen Verlauf von Interesse. Hierzu k"onnen die bisher vorgestellten Clusteringverfahren f"ur statische
+  Beim Clustering eines dynamischen Graphens, ist neben der Identifikation der Cluster ansich auch deren
+  zeitlichen Verlauf von Interesse. Hierzu m"ussen die bisher vorgestellten Clusteringverfahren f"ur statische
   Graphen erweitert oder modifiziert werden, damit die gefundenen Cluster "uber die Zeitschritte verfolgt werden
   k"onnen.
   
-  Hierzu lassen sich die Verfahren in zwei Klassen einteilen. \emph{Evolution"are Clustering Verfahren}\cite{evolutionary_clustering}
+  Clusteringverfahren dynamischer Graphen lassen sich in zwei Klassen einteilen. \emph{Evolution"are Clustering Verfahren}\cite{evolutionary_clustering}
   verwenden Graphinformationen mehrerer konsekutiver Zeitschritte um ein Clustering durchzuf"uhren. Zum Beispiel verwendet die Erweiterung der CPM
   in Kap. \ref{sec:CPM_time} Graphinformationen des aktuellen, sowie des n"achsten Zeitschritt. Ziel der evolution"aren Clusteringverfahren
   ist es, ein "uber mehrere Zeitschritte konsistentes Clustering zu finden, in welchem weiche "Uberg"ange zwischen Clustern der einzelnen Zeitschritte
-  besteht.
+  bestehen.
   
   Die andere Klasse der Clusteringverfahren dynamischer Graphen wird hier \emph{Time-step Clustering} genannt. Im Gegensatz zu den evolution"aren
   Clusteringverfahren, wird hier der statische Graph jedes einzelnen Zeitschritts separat geclustert. Dies hat den Vorteil das
-  Clusteringverfahren statischer Graphen, somit auch die in Kap. \ref{sec:static_clustering} vorgestellten Verfahren, ohne Modifikation
-  verwendet werden k"onnen. Da nur die Informationen des aktuellen Zeitschritt verwendet werden, k"onnen sich die gefunden Cluster in konsekutiven
-  Zeitschritten allerdings sehr stark "andern.
+  statische Clusteringverfahren, somit auch die in Kap. \ref{sec:static_clustering} vorgestellten Verfahren, ohne Modifikation
+  verwendet werden k"onnen. Da allerdings nur die Informationen des aktuellen Zeitschritt verwendet werden, k"onnen sich die gefunden Cluster in konsekutiven
+  Zeitschritten sehr stark "andern.
   
   F"ur Verfahren beider Klassen ist es notwendig gefundene Cluster verschiedener Zeitschritte zu vergleichen, um spezifische Cluster
-  zu verfolgen. Dazu kann der \emph{Jaccard-Koeffizient} verwendet werden, mithilfe dessen zwei Mengen auf "Ahnlichkeit
-  untersucht werden k"onnen. F"ur die Mengen $A$ und $B$ ist er definiert als \cite{timestep}:
+  zeitlich zu verfolgen. Dazu kann der \emph{Jaccard-Koeffizient} verwendet werden, mithilfe dessen zwei Mengen auf "Ahnlichkeit
+  untersucht werden. F"ur die Mengen $A$ und $B$ ist er definiert als \cite{timestep}:
   \begin{align}
     J(A,B)=\frac{|A \cap B|}{|A \cup B|}
   \end{align}
@@ -438,8 +434,8 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
     Betrachtet man den zeitlichen Verlauf eines Clusters, so k"onnen verschiedene Ereignisse auftreten. Zu jedem Zeitpunkt kann ein neuer Cluster
     entstehen, ebenso kann sich ein bestehender Cluster aufl"osen. Weiterhin k"onnen neue Cluster entstehen, falls sich bestehende gro"se Cluster
     teilen. Ebenso ist das Gegenteil m"oglich, und mehrere kleinere Cluster formieren sich im n"achsten Zeitschritt zu einem Gro"sen.
-    Im einfachsten Fall bleib ein Cluster im n"achsten Zeitschritt konstant, w"achst oder schrumpft indem neue Knoten hinzukommen oder weggehen.
-    In Abb. \ref{fig:evolution} sind alle m"oglichen Ereignisse noch einmal dargestellt.
+    Im einfachsten Fall bleib ein Cluster im n"achsten Zeitschritt konstant, oder er w"achst oder schrumpft indem neue Knoten hinzukommen oder wegfallen.
+    In Abb. \ref{fig:evolution} sind alle m"oglichen Ereignisse noch einmal graphisch dargestellt.
     \begin{figure*}[t]
       \centering
       \includegraphics[width=11cm]{images/evolution_alone}
@@ -500,7 +496,7 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
       \item $D_3 =\{C_{1,2}, C_{2,3}\}$
     \end{itemize}
     
-    F"ur jeden Zeitschritt $t$ werden die gefundenen Cluster $C_i$ des Clustering $\mathbb{C}_t$ mit den Fronten der Dynamic Communities
+    F"ur jeden Zeitschritt $t$ werden die gefundenen Cluster $C_{t,i}$ des Clustering $\mathbb{C}_t$ mit den Fronten der Dynamic Communities
     verglichen um gleiche Cluster in konsekutiven Zeitschritten zu finden. Hierzu wird der in Kap. \ref{sec:dynamic_clustering}
     vorgestellte Jaccard-Koeffizient verwendet. Dabei sind die
     Front $F_j$ und der Cluster $C_{t,i}$ gleich falls $J(F_j,C_{t,i})$ gr"o"ser einem bestimmten Wert $\theta$ ist. Da es in dynamischen Graphen
@@ -560,7 +556,7 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
 \section{Fazit}
   In diesem Artikel wurde eine "Ubersicht verschiedenster Graphclustering Verfahren gegeben. Das Forschungsgebiet des Clustering statischer Graphen ist sehr gut
   erforscht, was die Vielzahl der vorgestellten Verfahren best"atigt. Hierbei stellen die Verfahren aus Kap. \ref{sec:static_clustering} nur eine sehr grobe "Ubersicht
-  dar, da oftmals Variationen und zus"atzliche Heuristiken bestehen. Eine detaillierte Beschreibung, sowie weiterf"uhrende Literatur ist in \cite{Schaeffer} gegeben.
+  dar, da oftmals Variationen und zus"atzliche Heuristiken existieren. Eine detaillierte Beschreibung, sowie weiterf"uhrende Literatur ist in \cite{Schaeffer} gegeben.
   In den letzten Jahren hat sich der Fokus der Forschung auf diesem Gebiet in Richtung dynamischer Graphen verschoben. Zwar ist es mit dem in \cite{timestep} vorgestellten
   Framework m"ogliche, jedes statische Clustering Verfahren auch f"ur dynamische Graphen anzuwenden, allerdings haben Time-Step Verfahren den Nachteil, dass gefunden Cluster
   durchaus "uber mehrere Zeitschritte sehr stark schwanken k"onnen.
@@ -568,7 +564,7 @@ statische Clusteringverfahren auch auf dynamische Graphen anzuwenden.
   Pers"onlich sehe ich das gr"o"ste Potential in lokalen Verfahren wie der CPM. Diese bieten den Vorteil das der komplette Graph a priori nicht vorhanden sein muss, 
   dass das Clustering au"sschlie"slich auf bestimmte Bereiche angewendet werden kann und das bei lokalen "Anderungen nicht das komplette Clustering neu berechnet werden muss.
   Zwar ist die CPM aufgrund der maximalen Graphdichte der k-Cliques sehr restriktiv, allerdings existieren weitere Ideen, welche aus gefunden k-Cliques, sowie dem
-  relativen Knoten"uberlapp benachbarter k-Cliques einen gewichteten Clique-Graph\cite{clique_graph} aufbauen, und somit neue M"oglichkeiten zur Clusterung bieten.
+  relativen Knoten"uberlapp benachbarter k-Cliques einen gewichteten Clique-Graph\cite{clique_graph} aufbauen, und somit neue M"oglichkeiten zum Clustering bieten.
     
 \bibliographystyle{abbrv}
 %% use following if all content of bibtex file should be shown
